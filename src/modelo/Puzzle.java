@@ -1,5 +1,6 @@
 package modelo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -18,6 +19,10 @@ public class Puzzle extends Vertice<Puzzle> implements Comparable<Puzzle> {
 	private char funcionHeuristica;
 	int n; // tamano de puzzle n x n
 
+	public Puzzle() {
+		hijos = new ArrayList<Puzzle>(4);
+	}
+
 	/**
 	 * 
 	 * @param s
@@ -25,8 +30,9 @@ public class Puzzle extends Vertice<Puzzle> implements Comparable<Puzzle> {
 	 *            por espacio
 	 */
 	public Puzzle(String s) {
-		representacion = s;
-		String[] componentes = s.split(" ");
+		this();
+		representacion = s.trim();
+		String[] componentes = representacion.split(" ");
 		// n = sqroot(len(s))
 		n = (int) Math.sqrt(componentes.length);
 		int x, y;
@@ -46,6 +52,7 @@ public class Puzzle extends Vertice<Puzzle> implements Comparable<Puzzle> {
 	}
 
 	public Puzzle(Puzzle padre) {
+		this();
 		this.padre = padre;
 		n = padre.n;
 		this.funcionHeuristica = padre.funcionHeuristica;
@@ -225,5 +232,34 @@ public class Puzzle extends Vertice<Puzzle> implements Comparable<Puzzle> {
 		if (representacion == null)
 			calcularRepresentacion();
 		return representacion;
+	}
+
+	public Puzzle getParent() {
+		return this.padre;
+	}
+
+	public List<Puzzle> hijos() {
+		return hijos;
+	}
+
+	public String matrixString() {
+		calcularRepresentacion();
+		Coordenada c = new Coordenada(0, 0);
+		Integer v;
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				c.x = i;
+				c.y = j;
+				v = valor(c);
+				if (v == null) {
+					sb.append("X ");
+				}else{
+				sb.append(valor(c)).append(" ");
+				}
+			}
+			sb.append("\n");
+		}
+		return sb.toString();
 	}
 }

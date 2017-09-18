@@ -34,9 +34,11 @@ public class PuzzleCanvas extends mxInteractiveCanvas {
 		vertexRenderer.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 		
 		vertexRenderer.setHorizontalAlignment(JLabel.CENTER);
-		vertexRenderer.setOpaque(true);
 		if(arbol.getQ().contains(p)){
 			vertexRenderer.setBackground(Color.GREEN);
+			vertexRenderer.setOpaque(true);
+		}else{
+			vertexRenderer.setBackground(Color.BLACK);
 		}
 
 		

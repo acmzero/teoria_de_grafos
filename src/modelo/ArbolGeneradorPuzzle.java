@@ -1,5 +1,6 @@
 package modelo;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -13,10 +14,19 @@ import java.util.Set;
 public class ArbolGeneradorPuzzle extends Grafo<Puzzle> {
 	Set<Puzzle> Q;
 	Queue<Puzzle> P;
-	Puzzle sol, solucionGenerada;
+	Puzzle sol, solucionGenerada, raiz;
+
+	public Collection<Puzzle> getQ() {
+		return Q;
+	}
+
+	public Puzzle raiz() {
+		return raiz;
+	}
 
 	public void generarArbol(Puzzle p, Puzzle s) {
 		sol = s;
+		raiz = p;
 		Q = new HashSet<Puzzle>();
 		P = new PuzzleQueue();
 		P.add(p);
@@ -37,6 +47,8 @@ public class ArbolGeneradorPuzzle extends Grafo<Puzzle> {
 			v = it.next();
 			if (sol.equals(v)) {
 				solucionGenerada = v;
+				Q.add(solucionGenerada);
+				P.remove(solucionGenerada);
 				break;
 			}
 		}
@@ -50,6 +62,7 @@ public class ArbolGeneradorPuzzle extends Grafo<Puzzle> {
 				v.calcularF();
 				v.calcularG(sol);
 				P.add(v);
+				u.hijos.add(v);
 			}
 		}
 	}

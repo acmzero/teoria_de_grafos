@@ -59,4 +59,13 @@ public class OperadorPuzzle {
 		}
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		return ""+operador;
+	}
+	
+	public String getOperatorChar(){
+		return toString();
+	}
 }
