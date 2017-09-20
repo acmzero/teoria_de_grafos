@@ -18,6 +18,12 @@ public class Puzzle extends Vertice<Puzzle> implements Comparable<Puzzle> {
 	Puzzle solucion;
 	private char funcionHeuristica;
 	int n; // tamano de puzzle n x n
+	Integer[][] matriz;
+
+	Integer vf = null; // altura en arbol y valor de funcion heuristica
+	Integer vg;
+
+	Coordenada vacio;
 
 	public Puzzle() {
 		hijos = new ArrayList<Puzzle>(4);
@@ -55,6 +61,7 @@ public class Puzzle extends Vertice<Puzzle> implements Comparable<Puzzle> {
 		this();
 		this.padre = padre;
 		this.solucion = padre.solucion;
+		this.factor = padre.factor;
 		n = padre.n;
 		this.funcionHeuristica = padre.funcionHeuristica;
 
@@ -67,7 +74,7 @@ public class Puzzle extends Vertice<Puzzle> implements Comparable<Puzzle> {
 		}
 	}
 
-	public int calcularG(Puzzle solucion) { // heuristica
+	public float calcularG(Puzzle solucion) { // heuristica
 		if (vg != null) {
 			return vg;
 		}
@@ -107,25 +114,21 @@ public class Puzzle extends Vertice<Puzzle> implements Comparable<Puzzle> {
 
 	}
 
-	Integer[][] matriz;
-
-	Integer vf = null, vg; // altura en arbol y valor de funcion heuristica
-
-	Coordenada vacio;
 
 	@Override
 	public int compareTo(Puzzle o) {
-		if(o ==null){
+		if (o == null) {
 			valorPuzzle();
 		}
-		return valorPuzzle() - o.valorPuzzle();
+		return valorPuzzle().compareTo(o.valorPuzzle());
+//		return ((int) (valorPuzzle() * 100)) - ((int) (o.valorPuzzle() * 100));
 	}
 
-	public int valorPuzzle() {
-		if(vg==null){
+	public Float valorPuzzle() {
+		if (vg == null) {
 			calcularG(solucion);
 		}
-		return calcularF() + vg;
+		return calcularF() + (factor * vg);
 	}
 
 	public int funcionHeuristica(Puzzle o) {
@@ -136,7 +139,7 @@ public class Puzzle extends Vertice<Puzzle> implements Comparable<Puzzle> {
 			for (int j = 0; j < n; j++) {
 				cp = new Coordenada(i, j);
 				xp = this.valor(cp);
-				if(o == null){
+				if (o == null) {
 					xs = valor(cp);
 				}
 				xs = o.valor(cp);
@@ -264,8 +267,8 @@ public class Puzzle extends Vertice<Puzzle> implements Comparable<Puzzle> {
 				v = valor(c);
 				if (v == null) {
 					sb.append("X ");
-				}else{
-				sb.append(valor(c)).append(" ");
+				} else {
+					sb.append(valor(c)).append(" ");
 				}
 			}
 			sb.append("\n");
@@ -274,6 +277,12 @@ public class Puzzle extends Vertice<Puzzle> implements Comparable<Puzzle> {
 	}
 
 	public void solucion(Puzzle s) {
-		this.solucion=s;
+		this.solucion = s;
+	}
+
+	Float factor = 1.0f;
+
+	public void factor(float peso) {
+		this.factor = peso;
 	}
 }

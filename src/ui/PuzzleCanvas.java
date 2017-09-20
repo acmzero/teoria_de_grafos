@@ -22,26 +22,29 @@ public class PuzzleCanvas extends mxInteractiveCanvas {
 
 	public PuzzleCanvas(mxGraphComponent graphComponent) {
 		this.graphComponent = graphComponent;
-		
 
 	}
-	
-	public void drawVertex(mxCellState state, String label, ArbolGeneradorPuzzle arbol){
+
+	public void drawVertex(mxCellState state, String label,
+			ArbolGeneradorPuzzle arbol) {
 		Puzzle p = new Puzzle(label);
 		String s = p.matrixString().replaceAll("\n", "<br>");
 
-		vertexRenderer = new JLabel("<html>"+s+"</html>");
-		vertexRenderer.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-		
+		vertexRenderer = new JLabel("<html>" + s + "</html>");
+		vertexRenderer.setBorder(BorderFactory
+				.createBevelBorder(BevelBorder.RAISED));
+
 		vertexRenderer.setHorizontalAlignment(JLabel.CENTER);
-		if(arbol.getQ().contains(p)){
+		if (p.equals(arbol.solucion())) {
+			vertexRenderer.setBackground(Color.RED);
+			vertexRenderer.setOpaque(true);
+		} else if (arbol.getQ().contains(p)) {
 			vertexRenderer.setBackground(Color.GREEN);
 			vertexRenderer.setOpaque(true);
-		}else{
+		} else {
 			vertexRenderer.setBackground(Color.BLACK);
 		}
 
-		
 		rendererPane.paintComponent(g, vertexRenderer, graphComponent,
 				(int) (state.getX() + translate.getX()),
 				(int) (state.getY() + translate.getY()),

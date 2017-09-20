@@ -19,6 +19,10 @@ public class ArbolGeneradorPuzzle extends Grafo<Puzzle> {
 	public Collection<Puzzle> getQ() {
 		return Q;
 	}
+	
+	public Queue<Puzzle> getP(){
+		return P;
+	}
 
 	public Puzzle raiz() {
 		return raiz;
@@ -52,6 +56,9 @@ public class ArbolGeneradorPuzzle extends Grafo<Puzzle> {
 				break;
 			}
 		}
+	}
+	public Puzzle solucion(){
+		return solucionGenerada;
 	}
 
 	private void expander(Puzzle u) {
