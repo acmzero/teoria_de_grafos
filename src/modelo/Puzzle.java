@@ -54,6 +54,7 @@ public class Puzzle extends Vertice<Puzzle> implements Comparable<Puzzle> {
 	public Puzzle(Puzzle padre) {
 		this();
 		this.padre = padre;
+		this.solucion = padre.solucion;
 		n = padre.n;
 		this.funcionHeuristica = padre.funcionHeuristica;
 
@@ -114,10 +115,16 @@ public class Puzzle extends Vertice<Puzzle> implements Comparable<Puzzle> {
 
 	@Override
 	public int compareTo(Puzzle o) {
+		if(o ==null){
+			valorPuzzle();
+		}
 		return valorPuzzle() - o.valorPuzzle();
 	}
 
 	public int valorPuzzle() {
+		if(vg==null){
+			calcularG(solucion);
+		}
 		return calcularF() + vg;
 	}
 
@@ -129,6 +136,9 @@ public class Puzzle extends Vertice<Puzzle> implements Comparable<Puzzle> {
 			for (int j = 0; j < n; j++) {
 				cp = new Coordenada(i, j);
 				xp = this.valor(cp);
+				if(o == null){
+					xs = valor(cp);
+				}
 				xs = o.valor(cp);
 				if (xp != xs) {
 					if (funcionHeuristica == INCORRECTOS) {
@@ -261,5 +271,9 @@ public class Puzzle extends Vertice<Puzzle> implements Comparable<Puzzle> {
 			sb.append("\n");
 		}
 		return sb.toString();
+	}
+
+	public void solucion(Puzzle s) {
+		this.solucion=s;
 	}
 }

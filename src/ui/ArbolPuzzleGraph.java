@@ -114,11 +114,14 @@ public class ArbolPuzzleGraph extends JFrame {
 
 		sp = "2 8 3 1 6 4 7 X 5";
 		ss = "1 2 3 8 X 4 7 6 5";
+		sp = "8 1 2 X 4 3 7 6 5";
+		ss = "1 2 3 4 5 6 7 8 X";
 
 		Puzzle p = new Puzzle(sp);
-		// p.heuristicaIncorrecto();
-		p.heuristicaDifferencia();
+		p.heuristicaIncorrecto();
+		// p.heuristicaDifferencia();
 		Puzzle s = new Puzzle(ss);
+		p.solucion(s);
 
 		ArbolGeneradorPuzzle G = new ArbolGeneradorPuzzle();
 		G.generarArbol(p, s);
