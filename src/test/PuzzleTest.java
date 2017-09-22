@@ -16,11 +16,15 @@ public class PuzzleTest {
 		ss = "1 2 3 8 X 4 7 6 5";
 
 		Puzzle p = new Puzzle(sp);
-		p.heuristicaIncorrecto();
 		Puzzle s = new Puzzle(ss);
-		assertEquals(5, p.compareTo(s));
+		p.heuristicaIncorrecto();
+		p.solucion(s);
+		assertEquals(4, p.funcionHeuristica());
+		p = new Puzzle(sp);
+		s = new Puzzle(ss);
+		p.solucion(s);
 		p.heuristicaDifferencia();
-		assertEquals(6, p.compareTo(s));
+		assertEquals(5, p.funcionHeuristica());
 		
 		Puzzle u = OperadorPuzzle.U.transformar(p);
 		String su = "2 8 3 1 X 4 7 6 5";

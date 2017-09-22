@@ -77,7 +77,7 @@ public class ArbolPuzzleGraph extends JFrame {
 				}
 				parentVertex = vertexMap.get(p.getParent());
 				pVertex = graph.insertVertex(parent, null, p.toString(), 240,
-						250 * p.calcularF(), PUZZLE_SIDE, PUZZLE_SIDE);
+						250 * p.calcularAltura(), PUZZLE_SIDE, PUZZLE_SIDE);
 				vertexMap.put(p, pVertex);
 				if (p.operador != null) {
 					s = p.operador.getOperatorChar();

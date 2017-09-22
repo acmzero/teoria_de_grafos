@@ -2,25 +2,23 @@ package modelo;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 
 public class ArbolGeneradorPuzzle extends Grafo<Puzzle> {
 	Set<Puzzle> Q;
-	Queue<Puzzle> P;
+	PuzzleQueue P;
 	Puzzle sol, solucionGenerada, raiz;
 
 	public Collection<Puzzle> getQ() {
 		return Q;
 	}
-	
-	public Queue<Puzzle> getP(){
+
+	public Queue<Puzzle> getP() {
 		return P;
 	}
 
@@ -36,28 +34,19 @@ public class ArbolGeneradorPuzzle extends Grafo<Puzzle> {
 		P.add(p);
 
 		Puzzle u;
-		int sp, sq;
 		while (!P.contains(s) && !P.isEmpty()) {
 			u = P.poll();
 			expander(u);
-			sp = P.size();
-			sq = Q.size();
 		}
 
-		// TODO: mejorar iteracion
-		Iterator<Puzzle> it = P.iterator();
-		Puzzle v;
-		while (it.hasNext()) {
-			v = it.next();
-			if (sol.equals(v)) {
-				solucionGenerada = v;
-				Q.add(solucionGenerada);
-				P.remove(solucionGenerada);
-				break;
-			}
+		solucionGenerada = P.get(sol);
+		if (solucionGenerada != null) {
+			Q.add(solucionGenerada);
+			P.remove(solucionGenerada);
 		}
 	}
-	public Puzzle solucion(){
+
+	public Puzzle solucion() {
 		return solucionGenerada;
 	}
 
@@ -66,8 +55,8 @@ public class ArbolGeneradorPuzzle extends Grafo<Puzzle> {
 		List<Puzzle> sucesores = u.obtenerSucesores();
 		for (Puzzle v : sucesores) {
 			if (!P.contains(v) && !Q.contains(v)) {
-				v.calcularF();
-				v.calcularG(sol);
+				v.calcularAltura();
+				v.calcularHeuristica(sol);
 				P.add(v);
 				u.hijos.add(v);
 			}

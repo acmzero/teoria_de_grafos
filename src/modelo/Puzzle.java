@@ -2,28 +2,37 @@ package modelo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Puzzle extends Vertice<Puzzle> implements Comparable<Puzzle> {
 	private static char INCORRECTOS = 'I';
 	private static char DIFERENCIA = 'D';
+	//operadores que se pueden realizar sobre este objeto
 	static List<OperadorPuzzle> operadores = Arrays.asList(OperadorPuzzle.U,
 			OperadorPuzzle.D, OperadorPuzzle.L, OperadorPuzzle.R);
+	
+	
 	public String representacion;
+
 	public OperadorPuzzle operador; // Operador con el que se llego desde el
 									// padre
+	Float factor = 1.0f; //factor de la funcion heuristica
 
 	Puzzle solucion;
+
 	private char funcionHeuristica;
+
 	int n; // tamano de puzzle n x n
+
 	Integer[][] matriz;
 
-	Integer vf = null; // altura en arbol y valor de funcion heuristica
-	Integer vg;
+	Integer altura = 0; // altura en arbol y valor de funcion heuristica
+	Integer valorHeuristico=null; // valor de la funcion heuristica
 
 	Coordenada vacio;
+
+	private int hash = 0;
 
 	public Puzzle() {
 		hijos = new ArrayList<Puzzle>(4);
@@ -42,7 +51,7 @@ public class Puzzle extends Vertice<Puzzle> implements Comparable<Puzzle> {
 		// n = sqroot(len(s))
 		n = (int) Math.sqrt(componentes.length);
 		int x, y;
-		vf = 0;
+		altura = 0;
 		this.matriz = new Integer[n][n];
 		for (int i = 0; i < componentes.length; i++) {
 			x = i / n;
@@ -66,28 +75,28 @@ public class Puzzle extends Vertice<Puzzle> implements Comparable<Puzzle> {
 		this.funcionHeuristica = padre.funcionHeuristica;
 
 		this.matriz = new Integer[n][n];
+		Coordenada c = new Coordenada(0,0);
+		Integer aux;
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
-				if (padre.matriz[i][j] != null)
-					matriz[i][j] = Integer.valueOf(padre.matriz[i][j]);
+				c.set(i,j);
+				aux = padre.valor(c);
+				if (aux != null)
+					actualizar(c, Integer.valueOf(aux));
 			}
 		}
 	}
 
-	public float calcularG(Puzzle solucion) { // heuristica
-		if (vg != null) {
-			return vg;
-		}
-		vg = funcionHeuristica(solucion);
-		return vg;
+	public float calcularHeuristica(Puzzle solucion) { 
+		return funcionHeuristica(solucion);
 	}
 
-	public Integer calcularF() { // altura
-		if (vf != null) {
-			return vf;
+	public Integer calcularAltura() { 
+		if (altura != null) {
+			return altura;
 		}
-		vf = padre.vf + 1;
-		return vf;
+		altura = padre.altura + 1;
+		return altura;
 	}
 
 	Integer valor(Coordenada c) {
@@ -117,32 +126,36 @@ public class Puzzle extends Vertice<Puzzle> implements Comparable<Puzzle> {
 
 	@Override
 	public int compareTo(Puzzle o) {
-		if (o == null) {
-			valorPuzzle();
-		}
 		return valorPuzzle().compareTo(o.valorPuzzle());
-//		return ((int) (valorPuzzle() * 100)) - ((int) (o.valorPuzzle() * 100));
 	}
 
 	public Float valorPuzzle() {
-		if (vg == null) {
-			calcularG(solucion);
-		}
-		return calcularF() + (factor * vg);
+		return calcularAltura() + (factor * calcularHeuristica(solucion));
 	}
 
 	public int funcionHeuristica(Puzzle o) {
-		Coordenada cp, cs;
+		if (valorHeuristico != null) {
+			return valorHeuristico;
+		}
+		//significa que es la solucion
+		if(o==null){
+			return 0;
+		}
+		Coordenada cp = new Coordenada(0,0);
+		Coordenada cs = new Coordenada(0,0);
 		Integer xp, xs;
 		int sum = 0;
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
-				cp = new Coordenada(i, j);
-				xp = this.valor(cp);
+				cp.set(i, j); 
+				xp = valor(cp);
 				if (o == null) {
 					xs = valor(cp);
 				}
 				xs = o.valor(cp);
+				if(xp==null){
+					continue;
+				}
 				if (xp != xs) {
 					if (funcionHeuristica == INCORRECTOS) {
 						sum++;
@@ -153,7 +166,8 @@ public class Puzzle extends Vertice<Puzzle> implements Comparable<Puzzle> {
 				}
 			}
 		}
-
+		
+		valorHeuristico = sum;
 		return sum;
 	}
 
@@ -194,7 +208,6 @@ public class Puzzle extends Vertice<Puzzle> implements Comparable<Puzzle> {
 		return sucesores;
 	}
 
-	private int hash = 0;
 
 	@Override
 	public int hashCode() {
@@ -207,7 +220,6 @@ public class Puzzle extends Vertice<Puzzle> implements Comparable<Puzzle> {
 
 	@Override
 	public boolean equals(Object obj) {
-		// return this.hashCode() == obj.hashCode();
 
 		if (obj instanceof Puzzle) {
 			calcularRepresentacion();
@@ -280,9 +292,12 @@ public class Puzzle extends Vertice<Puzzle> implements Comparable<Puzzle> {
 		this.solucion = s;
 	}
 
-	Float factor = 1.0f;
 
 	public void factor(float peso) {
 		this.factor = peso;
+	}
+
+	public int funcionHeuristica() {
+		return funcionHeuristica(solucion);
 	}
 }

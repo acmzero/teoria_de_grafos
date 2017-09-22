@@ -13,4 +13,8 @@ public class Coordenada implements Comparable<Coordenada> {
 	public int compareTo(Coordenada o) {
 		return Math.abs(x - o.x) + Math.abs(y - o.y);
 	}
+	public void set(int i, int j) {
+		this.x = i;
+		this.y = j;
+	}
 }
