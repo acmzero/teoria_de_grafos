@@ -1,25 +1,37 @@
+package ui;
+
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.swing.JTextField;
+
+import modelo.ArbolGeneradorPuzzle;
+import modelo.Puzzle;
+import ui.ArbolPuzzleGraph;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ui;
-
-import javax.swing.JFrame;
-
-import modelo.ArbolGeneradorPuzzle;
-import modelo.Puzzle;
 
 /**
  * 
  * @author naty
  */
 public class GUI_Puzzle extends javax.swing.JFrame {
-
 	private ArbolGeneradorPuzzle arbol;
+	char[] numeros = new char[8];
+	char[] numerosP2 = new char[8];
+	private List<JTextField> iniciales;
+	private List<JTextField> finales;
+	private ArrayList<JTextField> secuencia;
 
 	/**
-	 * Creates new form GUI_Puzzle
+	 * Creates new form NewJFrame
 	 */
 	public GUI_Puzzle() {
 		initComponents();
@@ -35,854 +47,771 @@ public class GUI_Puzzle extends javax.swing.JFrame {
 	// desc="Generated Code">//GEN-BEGIN:initComponents
 	private void initComponents() {
 
-		jLabel9 = new javax.swing.JLabel();
-		jLabel6 = new javax.swing.JLabel();
-		jLayeredPane2 = new javax.swing.JLayeredPane();
-		I1 = new javax.swing.JTextField();
-		I4 = new javax.swing.JTextField();
+		jPanel1 = new javax.swing.JPanel();
 		I7 = new javax.swing.JTextField();
-		I2 = new javax.swing.JTextField();
-		I5 = new javax.swing.JTextField();
 		I8 = new javax.swing.JTextField();
-		I3 = new javax.swing.JTextField();
 		I9 = new javax.swing.JTextField();
+		I4 = new javax.swing.JTextField();
+		I5 = new javax.swing.JTextField();
 		I6 = new javax.swing.JTextField();
-		jLabel2 = new javax.swing.JLabel();
+		I1 = new javax.swing.JTextField();
+		I2 = new javax.swing.JTextField();
+		I3 = new javax.swing.JTextField();
+		iniciales = Arrays.asList(I1, I2, I3, I4, I5, I6, I7, I8, I9);
+		jPanel2 = new javax.swing.JPanel();
+		I19 = new javax.swing.JTextField();
+		I20 = new javax.swing.JTextField();
+		I21 = new javax.swing.JTextField();
+		I22 = new javax.swing.JTextField();
+		I23 = new javax.swing.JTextField();
+		I24 = new javax.swing.JTextField();
+		I25 = new javax.swing.JTextField();
+		I26 = new javax.swing.JTextField();
+		I27 = new javax.swing.JTextField();
+		finales = Arrays.asList(I25, I26, I27, I22, I23, I24, I19, I20, I21);
+
+		secuencia = new ArrayList<JTextField>(20);
+		secuencia.addAll(iniciales);
+		secuencia.addAll(finales);
+
 		jLabel1 = new javax.swing.JLabel();
-		jLayeredPane1 = new javax.swing.JLayeredPane();
-		S1 = new javax.swing.JTextField();
-		S4 = new javax.swing.JTextField();
-		S7 = new javax.swing.JTextField();
-		S2 = new javax.swing.JTextField();
-		S5 = new javax.swing.JTextField();
-		S8 = new javax.swing.JTextField();
-		S3 = new javax.swing.JTextField();
-		S9 = new javax.swing.JTextField();
-		S6 = new javax.swing.JTextField();
-		jLabel3 = new javax.swing.JLabel();
-		jLabel10 = new javax.swing.JLabel();
-		pesoAlpha = new javax.swing.JTextField();
-		jLabel11 = new javax.swing.JLabel();
-		generarArbol1 = new javax.swing.JButton();
 		opcion = new javax.swing.JComboBox<>();
-		Ptxt = new javax.swing.JLabel();
+		jLabel2 = new javax.swing.JLabel();
+		pesoAlpha = new javax.swing.JTextField();
+		jLabel3 = new javax.swing.JLabel();
+		btnGenerar = new javax.swing.JButton();
 		jLabel4 = new javax.swing.JLabel();
-		Pjtext = new javax.swing.JTextField();
-		Qjtext = new javax.swing.JTextField();
 		jLabel5 = new javax.swing.JLabel();
-		caminojtext = new javax.swing.JTextField();
-		arbolbtn = new javax.swing.JButton();
-		etiquetaSol = new javax.swing.JLabel();
+		jLabel6 = new javax.swing.JLabel();
+		caminoJtext = new javax.swing.JTextField();
+		verArbolBtn = new javax.swing.JButton();
+		etiqueta = new javax.swing.JLabel();
+		jLabel7 = new javax.swing.JLabel();
+		jLabel8 = new javax.swing.JLabel();
+		PJtext = new javax.swing.JTextField();
+		QJtext = new javax.swing.JTextField();
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-		getContentPane().setLayout(
-				new org.netbeans.lib.awtextra.AbsoluteLayout());
+		setAutoRequestFocus(false);
+		for (javax.swing.JTextField f : iniciales) {
+			iniciarField(f);
+		}
+		for (javax.swing.JTextField f : finales) {
+			iniciarField(f);
+		}
 
-		jLabel9.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-		jLabel9.setText("PUZZLE");
-		getContentPane().add(
-				jLabel9,
-				new org.netbeans.lib.awtextra.AbsoluteConstraints(337, 6, -1,
-						-1));
-
-		jLabel6.setText("ALGORITMO BEST FIRST (A)");
-		getContentPane().add(
-				jLabel6,
-				new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 42, -1,
-						-1));
-
-		jLayeredPane2.setBorder(javax.swing.BorderFactory
-				.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-		I1.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-		I1.setAlignmentX(1.0F);
-		I1.setAlignmentY(1.0F);
-		I1.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				I1ActionPerformed(evt);
-			}
-		});
-		I1.addKeyListener(new java.awt.event.KeyAdapter() {
-			public void keyTyped(java.awt.event.KeyEvent evt) {
-				I1KeyTyped(evt);
-			}
-		});
-
-		I4.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-		I4.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				I4ActionPerformed(evt);
-			}
-		});
-		I4.addKeyListener(new java.awt.event.KeyAdapter() {
-			public void keyTyped(java.awt.event.KeyEvent evt) {
-				I4KeyTyped(evt);
-			}
-		});
-
-		I7.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-		I7.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				I7ActionPerformed(evt);
-			}
-		});
-		I7.addKeyListener(new java.awt.event.KeyAdapter() {
-			public void keyTyped(java.awt.event.KeyEvent evt) {
-				I7KeyTyped(evt);
-			}
-		});
-
-		I2.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-		I2.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				I2ActionPerformed(evt);
-			}
-		});
-		I2.addKeyListener(new java.awt.event.KeyAdapter() {
-			public void keyTyped(java.awt.event.KeyEvent evt) {
-				I2KeyTyped(evt);
-			}
-		});
-
-		I5.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-		I5.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				I5ActionPerformed(evt);
-			}
-		});
-		I5.addKeyListener(new java.awt.event.KeyAdapter() {
-			public void keyTyped(java.awt.event.KeyEvent evt) {
-				I5KeyTyped(evt);
-			}
-		});
-
-		I8.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-		I8.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				I8ActionPerformed(evt);
-			}
-		});
-		I8.addKeyListener(new java.awt.event.KeyAdapter() {
-			public void keyTyped(java.awt.event.KeyEvent evt) {
-				I8KeyTyped(evt);
-			}
-		});
-
-		I3.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-		I3.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				I3ActionPerformed(evt);
-			}
-		});
-		I3.addKeyListener(new java.awt.event.KeyAdapter() {
-			public void keyTyped(java.awt.event.KeyEvent evt) {
-				I3KeyTyped(evt);
-			}
-		});
-
-		I9.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-		I9.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				I9ActionPerformed(evt);
-			}
-		});
-		I9.addKeyListener(new java.awt.event.KeyAdapter() {
-			public void keyTyped(java.awt.event.KeyEvent evt) {
-				I9KeyTyped(evt);
-			}
-		});
-
-		I6.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-		I6.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				I6ActionPerformed(evt);
-			}
-		});
-		I6.addKeyListener(new java.awt.event.KeyAdapter() {
-			public void keyTyped(java.awt.event.KeyEvent evt) {
-				I6KeyTyped(evt);
-			}
-		});
-
-		jLayeredPane2.setLayer(I1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-		jLayeredPane2.setLayer(I4, javax.swing.JLayeredPane.DEFAULT_LAYER);
-		jLayeredPane2.setLayer(I7, javax.swing.JLayeredPane.DEFAULT_LAYER);
-		jLayeredPane2.setLayer(I2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-		jLayeredPane2.setLayer(I5, javax.swing.JLayeredPane.DEFAULT_LAYER);
-		jLayeredPane2.setLayer(I8, javax.swing.JLayeredPane.DEFAULT_LAYER);
-		jLayeredPane2.setLayer(I3, javax.swing.JLayeredPane.DEFAULT_LAYER);
-		jLayeredPane2.setLayer(I9, javax.swing.JLayeredPane.DEFAULT_LAYER);
-		jLayeredPane2.setLayer(I6, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-		javax.swing.GroupLayout jLayeredPane2Layout = new javax.swing.GroupLayout(
-				jLayeredPane2);
-		jLayeredPane2.setLayout(jLayeredPane2Layout);
-		jLayeredPane2Layout
-				.setHorizontalGroup(jLayeredPane2Layout
+		javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(
+				jPanel1);
+		jPanel1.setLayout(jPanel1Layout);
+		jPanel1Layout
+				.setHorizontalGroup(jPanel1Layout
 						.createParallelGroup(
 								javax.swing.GroupLayout.Alignment.LEADING)
 						.addGroup(
-								jLayeredPane2Layout
+								jPanel1Layout
 										.createSequentialGroup()
-										.addContainerGap()
+										.addGap(19, 19, 19)
 										.addGroup(
-												jLayeredPane2Layout
+												jPanel1Layout
 														.createParallelGroup(
 																javax.swing.GroupLayout.Alignment.LEADING)
 														.addGroup(
-																jLayeredPane2Layout
+																jPanel1Layout
 																		.createSequentialGroup()
 																		.addComponent(
 																				I1,
 																				javax.swing.GroupLayout.PREFERRED_SIZE,
-																				60,
+																				66,
 																				javax.swing.GroupLayout.PREFERRED_SIZE)
 																		.addPreferredGap(
 																				javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
 																		.addComponent(
 																				I2,
 																				javax.swing.GroupLayout.PREFERRED_SIZE,
-																				60,
+																				66,
 																				javax.swing.GroupLayout.PREFERRED_SIZE)
 																		.addPreferredGap(
 																				javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
 																		.addComponent(
 																				I3,
 																				javax.swing.GroupLayout.PREFERRED_SIZE,
-																				60,
+																				66,
 																				javax.swing.GroupLayout.PREFERRED_SIZE))
 														.addGroup(
-																jLayeredPane2Layout
+																javax.swing.GroupLayout.Alignment.TRAILING,
+																jPanel1Layout
 																		.createSequentialGroup()
-																		.addGroup(
-																				jLayeredPane2Layout
-																						.createParallelGroup(
-																								javax.swing.GroupLayout.Alignment.TRAILING)
-																						.addComponent(
-																								I4,
-																								javax.swing.GroupLayout.PREFERRED_SIZE,
-																								60,
-																								javax.swing.GroupLayout.PREFERRED_SIZE)
-																						.addComponent(
-																								I7,
-																								javax.swing.GroupLayout.PREFERRED_SIZE,
-																								60,
-																								javax.swing.GroupLayout.PREFERRED_SIZE))
-																		.addGroup(
-																				jLayeredPane2Layout
-																						.createParallelGroup(
-																								javax.swing.GroupLayout.Alignment.LEADING)
-																						.addGroup(
-																								jLayeredPane2Layout
-																										.createSequentialGroup()
-																										.addGap(12,
-																												12,
-																												12)
-																										.addComponent(
-																												I8,
-																												javax.swing.GroupLayout.PREFERRED_SIZE,
-																												60,
-																												javax.swing.GroupLayout.PREFERRED_SIZE)
-																										.addPreferredGap(
-																												javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-																										.addComponent(
-																												I9,
-																												javax.swing.GroupLayout.PREFERRED_SIZE,
-																												60,
-																												javax.swing.GroupLayout.PREFERRED_SIZE))
-																						.addGroup(
-																								jLayeredPane2Layout
-																										.createSequentialGroup()
-																										.addPreferredGap(
-																												javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-																										.addComponent(
-																												I5,
-																												javax.swing.GroupLayout.PREFERRED_SIZE,
-																												60,
-																												javax.swing.GroupLayout.PREFERRED_SIZE)
-																										.addGap(12,
-																												12,
-																												12)
-																										.addComponent(
-																												I6,
-																												javax.swing.GroupLayout.PREFERRED_SIZE,
-																												60,
-																												javax.swing.GroupLayout.PREFERRED_SIZE)))))
-										.addContainerGap(
-												javax.swing.GroupLayout.DEFAULT_SIZE,
-												Short.MAX_VALUE)));
-		jLayeredPane2Layout
-				.setVerticalGroup(jLayeredPane2Layout
+																		.addComponent(
+																				I4,
+																				javax.swing.GroupLayout.PREFERRED_SIZE,
+																				66,
+																				javax.swing.GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(
+																				javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+																		.addComponent(
+																				I5,
+																				javax.swing.GroupLayout.PREFERRED_SIZE,
+																				66,
+																				javax.swing.GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(
+																				javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+																		.addComponent(
+																				I6,
+																				javax.swing.GroupLayout.PREFERRED_SIZE,
+																				66,
+																				javax.swing.GroupLayout.PREFERRED_SIZE))
+														.addGroup(
+																jPanel1Layout
+																		.createSequentialGroup()
+																		.addComponent(
+																				I7,
+																				javax.swing.GroupLayout.PREFERRED_SIZE,
+																				66,
+																				javax.swing.GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(
+																				javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+																		.addComponent(
+																				I8,
+																				javax.swing.GroupLayout.PREFERRED_SIZE,
+																				66,
+																				javax.swing.GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(
+																				javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+																		.addComponent(
+																				I9,
+																				javax.swing.GroupLayout.PREFERRED_SIZE,
+																				66,
+																				javax.swing.GroupLayout.PREFERRED_SIZE)))
+										.addContainerGap(28, Short.MAX_VALUE)));
+		jPanel1Layout
+				.setVerticalGroup(jPanel1Layout
 						.createParallelGroup(
 								javax.swing.GroupLayout.Alignment.LEADING)
 						.addGroup(
-								jLayeredPane2Layout
+								jPanel1Layout
 										.createSequentialGroup()
-										.addContainerGap()
+										.addGap(18, 18, 18)
 										.addGroup(
-												jLayeredPane2Layout
+												jPanel1Layout
 														.createParallelGroup(
 																javax.swing.GroupLayout.Alignment.BASELINE)
 														.addComponent(
 																I1,
 																javax.swing.GroupLayout.PREFERRED_SIZE,
-																60,
+																62,
 																javax.swing.GroupLayout.PREFERRED_SIZE)
 														.addComponent(
 																I2,
 																javax.swing.GroupLayout.PREFERRED_SIZE,
-																60,
+																62,
 																javax.swing.GroupLayout.PREFERRED_SIZE)
 														.addComponent(
 																I3,
 																javax.swing.GroupLayout.PREFERRED_SIZE,
-																60,
+																62,
 																javax.swing.GroupLayout.PREFERRED_SIZE))
-										.addGap(18, 18, 18)
+										.addPreferredGap(
+												javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
 										.addGroup(
-												jLayeredPane2Layout
+												jPanel1Layout
 														.createParallelGroup(
 																javax.swing.GroupLayout.Alignment.BASELINE)
 														.addComponent(
 																I4,
 																javax.swing.GroupLayout.PREFERRED_SIZE,
-																60,
+																62,
 																javax.swing.GroupLayout.PREFERRED_SIZE)
 														.addComponent(
 																I5,
 																javax.swing.GroupLayout.PREFERRED_SIZE,
-																60,
+																62,
 																javax.swing.GroupLayout.PREFERRED_SIZE)
 														.addComponent(
 																I6,
 																javax.swing.GroupLayout.PREFERRED_SIZE,
-																60,
+																62,
 																javax.swing.GroupLayout.PREFERRED_SIZE))
-										.addGap(18, 18, 18)
+										.addPreferredGap(
+												javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
 										.addGroup(
-												jLayeredPane2Layout
+												jPanel1Layout
 														.createParallelGroup(
 																javax.swing.GroupLayout.Alignment.BASELINE)
 														.addComponent(
 																I7,
 																javax.swing.GroupLayout.PREFERRED_SIZE,
-																60,
+																62,
 																javax.swing.GroupLayout.PREFERRED_SIZE)
 														.addComponent(
 																I8,
 																javax.swing.GroupLayout.PREFERRED_SIZE,
-																60,
+																62,
 																javax.swing.GroupLayout.PREFERRED_SIZE)
 														.addComponent(
 																I9,
 																javax.swing.GroupLayout.PREFERRED_SIZE,
-																60,
+																62,
 																javax.swing.GroupLayout.PREFERRED_SIZE))
-										.addContainerGap(
-												javax.swing.GroupLayout.DEFAULT_SIZE,
-												Short.MAX_VALUE)));
+										.addContainerGap(28, Short.MAX_VALUE)));
 
-		getContentPane().add(
-				jLayeredPane2,
-				new org.netbeans.lib.awtextra.AbsoluteConstraints(67, 156, -1,
-						-1));
-
-		jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-		jLabel2.setText("Solución");
-		getContentPane().add(
-				jLabel2,
-				new org.netbeans.lib.awtextra.AbsoluteConstraints(492, 108, -1,
-						-1));
-
-		jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-		jLabel1.setText("Estado inicial");
-		getContentPane().add(
-				jLabel1,
-				new org.netbeans.lib.awtextra.AbsoluteConstraints(102, 108, -1,
-						-1));
-
-		jLayeredPane1.setBorder(javax.swing.BorderFactory
-				.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-		S1.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-		S1.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				S1ActionPerformed(evt);
-			}
-		});
-		S1.addKeyListener(new java.awt.event.KeyAdapter() {
-			public void keyTyped(java.awt.event.KeyEvent evt) {
-				S1KeyTyped(evt);
-			}
-		});
-
-		S4.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-		S4.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				S4ActionPerformed(evt);
-			}
-		});
-
-		S7.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-		S7.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				S7ActionPerformed(evt);
-			}
-		});
-
-		S2.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-		S2.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				S2ActionPerformed(evt);
-			}
-		});
-
-		S5.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-		S5.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				S5ActionPerformed(evt);
-			}
-		});
-
-		S8.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-		S8.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				S8ActionPerformed(evt);
-			}
-		});
-
-		S3.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-		S3.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				S3ActionPerformed(evt);
-			}
-		});
-
-		S9.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-		S9.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				S9ActionPerformed(evt);
-			}
-		});
-
-		S6.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-		S6.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				S6ActionPerformed(evt);
-			}
-		});
-
-		jLayeredPane1.setLayer(S1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-		jLayeredPane1.setLayer(S4, javax.swing.JLayeredPane.DEFAULT_LAYER);
-		jLayeredPane1.setLayer(S7, javax.swing.JLayeredPane.DEFAULT_LAYER);
-		jLayeredPane1.setLayer(S2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-		jLayeredPane1.setLayer(S5, javax.swing.JLayeredPane.DEFAULT_LAYER);
-		jLayeredPane1.setLayer(S8, javax.swing.JLayeredPane.DEFAULT_LAYER);
-		jLayeredPane1.setLayer(S3, javax.swing.JLayeredPane.DEFAULT_LAYER);
-		jLayeredPane1.setLayer(S9, javax.swing.JLayeredPane.DEFAULT_LAYER);
-		jLayeredPane1.setLayer(S6, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-		javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(
-				jLayeredPane1);
-		jLayeredPane1.setLayout(jLayeredPane1Layout);
-		jLayeredPane1Layout
-				.setHorizontalGroup(jLayeredPane1Layout
+		javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(
+				jPanel2);
+		jPanel2.setLayout(jPanel2Layout);
+		jPanel2Layout
+				.setHorizontalGroup(jPanel2Layout
 						.createParallelGroup(
 								javax.swing.GroupLayout.Alignment.LEADING)
 						.addGroup(
-								jLayeredPane1Layout
+								jPanel2Layout
 										.createSequentialGroup()
-										.addContainerGap()
+										.addGap(19, 19, 19)
 										.addGroup(
-												jLayeredPane1Layout
+												jPanel2Layout
 														.createParallelGroup(
 																javax.swing.GroupLayout.Alignment.LEADING)
 														.addGroup(
-																jLayeredPane1Layout
+																jPanel2Layout
 																		.createSequentialGroup()
 																		.addComponent(
-																				S1,
+																				I25,
 																				javax.swing.GroupLayout.PREFERRED_SIZE,
-																				60,
+																				66,
 																				javax.swing.GroupLayout.PREFERRED_SIZE)
 																		.addPreferredGap(
 																				javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
 																		.addComponent(
-																				S2,
+																				I26,
 																				javax.swing.GroupLayout.PREFERRED_SIZE,
-																				60,
+																				66,
 																				javax.swing.GroupLayout.PREFERRED_SIZE)
 																		.addPreferredGap(
 																				javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
 																		.addComponent(
-																				S3,
+																				I27,
 																				javax.swing.GroupLayout.PREFERRED_SIZE,
-																				60,
+																				66,
 																				javax.swing.GroupLayout.PREFERRED_SIZE))
 														.addGroup(
-																jLayeredPane1Layout
+																javax.swing.GroupLayout.Alignment.TRAILING,
+																jPanel2Layout
 																		.createSequentialGroup()
-																		.addGroup(
-																				jLayeredPane1Layout
-																						.createParallelGroup(
-																								javax.swing.GroupLayout.Alignment.TRAILING)
-																						.addComponent(
-																								S4,
-																								javax.swing.GroupLayout.PREFERRED_SIZE,
-																								60,
-																								javax.swing.GroupLayout.PREFERRED_SIZE)
-																						.addComponent(
-																								S7,
-																								javax.swing.GroupLayout.PREFERRED_SIZE,
-																								60,
-																								javax.swing.GroupLayout.PREFERRED_SIZE))
-																		.addGroup(
-																				jLayeredPane1Layout
-																						.createParallelGroup(
-																								javax.swing.GroupLayout.Alignment.LEADING)
-																						.addGroup(
-																								jLayeredPane1Layout
-																										.createSequentialGroup()
-																										.addGap(12,
-																												12,
-																												12)
-																										.addComponent(
-																												S8,
-																												javax.swing.GroupLayout.PREFERRED_SIZE,
-																												60,
-																												javax.swing.GroupLayout.PREFERRED_SIZE)
-																										.addPreferredGap(
-																												javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-																										.addComponent(
-																												S9,
-																												javax.swing.GroupLayout.PREFERRED_SIZE,
-																												60,
-																												javax.swing.GroupLayout.PREFERRED_SIZE))
-																						.addGroup(
-																								jLayeredPane1Layout
-																										.createSequentialGroup()
-																										.addPreferredGap(
-																												javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-																										.addComponent(
-																												S5,
-																												javax.swing.GroupLayout.PREFERRED_SIZE,
-																												60,
-																												javax.swing.GroupLayout.PREFERRED_SIZE)
-																										.addGap(12,
-																												12,
-																												12)
-																										.addComponent(
-																												S6,
-																												javax.swing.GroupLayout.PREFERRED_SIZE,
-																												60,
-																												javax.swing.GroupLayout.PREFERRED_SIZE)))))
-										.addContainerGap(
-												javax.swing.GroupLayout.DEFAULT_SIZE,
-												Short.MAX_VALUE)));
-		jLayeredPane1Layout
-				.setVerticalGroup(jLayeredPane1Layout
+																		.addComponent(
+																				I22,
+																				javax.swing.GroupLayout.PREFERRED_SIZE,
+																				66,
+																				javax.swing.GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(
+																				javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+																		.addComponent(
+																				I23,
+																				javax.swing.GroupLayout.PREFERRED_SIZE,
+																				66,
+																				javax.swing.GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(
+																				javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+																		.addComponent(
+																				I24,
+																				javax.swing.GroupLayout.PREFERRED_SIZE,
+																				66,
+																				javax.swing.GroupLayout.PREFERRED_SIZE))
+														.addGroup(
+																jPanel2Layout
+																		.createSequentialGroup()
+																		.addComponent(
+																				I19,
+																				javax.swing.GroupLayout.PREFERRED_SIZE,
+																				66,
+																				javax.swing.GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(
+																				javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+																		.addComponent(
+																				I20,
+																				javax.swing.GroupLayout.PREFERRED_SIZE,
+																				66,
+																				javax.swing.GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(
+																				javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+																		.addComponent(
+																				I21,
+																				javax.swing.GroupLayout.PREFERRED_SIZE,
+																				66,
+																				javax.swing.GroupLayout.PREFERRED_SIZE)))
+										.addContainerGap(28, Short.MAX_VALUE)));
+		jPanel2Layout
+				.setVerticalGroup(jPanel2Layout
 						.createParallelGroup(
 								javax.swing.GroupLayout.Alignment.LEADING)
 						.addGroup(
-								jLayeredPane1Layout
+								jPanel2Layout
 										.createSequentialGroup()
-										.addContainerGap()
-										.addGroup(
-												jLayeredPane1Layout
-														.createParallelGroup(
-																javax.swing.GroupLayout.Alignment.BASELINE)
-														.addComponent(
-																S1,
-																javax.swing.GroupLayout.PREFERRED_SIZE,
-																60,
-																javax.swing.GroupLayout.PREFERRED_SIZE)
-														.addComponent(
-																S2,
-																javax.swing.GroupLayout.PREFERRED_SIZE,
-																60,
-																javax.swing.GroupLayout.PREFERRED_SIZE)
-														.addComponent(
-																S3,
-																javax.swing.GroupLayout.PREFERRED_SIZE,
-																60,
-																javax.swing.GroupLayout.PREFERRED_SIZE))
 										.addGap(18, 18, 18)
 										.addGroup(
-												jLayeredPane1Layout
+												jPanel2Layout
 														.createParallelGroup(
 																javax.swing.GroupLayout.Alignment.BASELINE)
 														.addComponent(
-																S4,
+																I25,
 																javax.swing.GroupLayout.PREFERRED_SIZE,
-																60,
+																62,
 																javax.swing.GroupLayout.PREFERRED_SIZE)
 														.addComponent(
-																S5,
+																I26,
 																javax.swing.GroupLayout.PREFERRED_SIZE,
-																60,
+																62,
 																javax.swing.GroupLayout.PREFERRED_SIZE)
 														.addComponent(
-																S6,
+																I27,
 																javax.swing.GroupLayout.PREFERRED_SIZE,
-																60,
+																62,
 																javax.swing.GroupLayout.PREFERRED_SIZE))
-										.addGap(18, 18, 18)
+										.addPreferredGap(
+												javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
 										.addGroup(
-												jLayeredPane1Layout
+												jPanel2Layout
 														.createParallelGroup(
 																javax.swing.GroupLayout.Alignment.BASELINE)
 														.addComponent(
-																S7,
+																I22,
 																javax.swing.GroupLayout.PREFERRED_SIZE,
-																60,
+																62,
 																javax.swing.GroupLayout.PREFERRED_SIZE)
 														.addComponent(
-																S8,
+																I23,
 																javax.swing.GroupLayout.PREFERRED_SIZE,
-																60,
+																62,
 																javax.swing.GroupLayout.PREFERRED_SIZE)
 														.addComponent(
-																S9,
+																I24,
 																javax.swing.GroupLayout.PREFERRED_SIZE,
-																60,
+																62,
 																javax.swing.GroupLayout.PREFERRED_SIZE))
-										.addContainerGap(
-												javax.swing.GroupLayout.DEFAULT_SIZE,
-												Short.MAX_VALUE)));
+										.addPreferredGap(
+												javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+										.addGroup(
+												jPanel2Layout
+														.createParallelGroup(
+																javax.swing.GroupLayout.Alignment.BASELINE)
+														.addComponent(
+																I19,
+																javax.swing.GroupLayout.PREFERRED_SIZE,
+																62,
+																javax.swing.GroupLayout.PREFERRED_SIZE)
+														.addComponent(
+																I20,
+																javax.swing.GroupLayout.PREFERRED_SIZE,
+																62,
+																javax.swing.GroupLayout.PREFERRED_SIZE)
+														.addComponent(
+																I21,
+																javax.swing.GroupLayout.PREFERRED_SIZE,
+																62,
+																javax.swing.GroupLayout.PREFERRED_SIZE))
+										.addContainerGap(28, Short.MAX_VALUE)));
 
-		getContentPane().add(
-				jLayeredPane1,
-				new org.netbeans.lib.awtextra.AbsoluteConstraints(429, 156, -1,
-						-1));
+		jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+		jLabel1.setText("FUNCIÓN HEURÍSTICA: ");
 
-		jLabel3.setText("Función heurística:");
-		getContentPane().add(
-				jLabel3,
-				new org.netbeans.lib.awtextra.AbsoluteConstraints(67, 435, -1,
-						-1));
+		opcion.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+		opcion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
+				"INCORRECTOS", "DIFERENCIA" }));
 
-		jLabel10.setText("f(n) = g(n) + ");
-		getContentPane().add(
-				jLabel10,
-				new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 490, -1,
-						-1));
+		jLabel2.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+		jLabel2.setText("F(n) = G(n)  +  ");
 
-		pesoAlpha.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				pesoAlphaActionPerformed(evt);
-			}
-		});
 		pesoAlpha.addKeyListener(new java.awt.event.KeyAdapter() {
 			public void keyTyped(java.awt.event.KeyEvent evt) {
 				pesoAlphaKeyTyped(evt);
 			}
 		});
-		getContentPane().add(
-				pesoAlpha,
-				new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 480, 43,
-						32));
 
-		jLabel11.setText("h(n)");
-		getContentPane().add(
-				jLabel11,
-				new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 490, -1,
-						-1));
+		jLabel3.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+		jLabel3.setText("H(n)");
 
-		generarArbol1.setText("Generar");
-		generarArbol1.addActionListener(new java.awt.event.ActionListener() {
+		btnGenerar.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+		btnGenerar.setText("GENERAR");
+		btnGenerar.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				generarArbol1ActionPerformed(evt);
+				btnGenerarActionPerformed(evt);
 			}
 		});
-		getContentPane().add(
-				generarArbol1,
-				new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 550, -1,
-						40));
 
-		opcion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
-				"INCORRECTOS", "DIFERENCIA" }));
-		opcion.addActionListener(new java.awt.event.ActionListener() {
+		jLabel4.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+		jLabel4.setText("P: ");
+
+		jLabel5.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+		jLabel5.setText("Q: ");
+
+		jLabel6.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+		jLabel6.setText("CAMINO: ");
+
+		verArbolBtn.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+		verArbolBtn.setText("VER ÁRBOL");
+		verArbolBtn.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				opcionActionPerformed(evt);
+				verArbolBtnActionPerformed(evt);
 			}
 		});
-		getContentPane().add(
-				opcion,
-				new org.netbeans.lib.awtextra.AbsoluteConstraints(199, 431, -1,
-						-1));
 
-		Ptxt.setText("P:");
-		getContentPane().add(
-				Ptxt,
-				new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 430, -1,
-						-1));
+		etiqueta.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
+		etiqueta.setForeground(new java.awt.Color(255, 0, 0));
+		etiqueta.setEnabled(false);
 
-		jLabel4.setText("Q:");
-		getContentPane().add(
-				jLabel4,
-				new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 460, -1,
-						-1));
+		jLabel7.setFont(new java.awt.Font("Lucida Grande", 1, 24)); // NOI18N
+		jLabel7.setText("PUZZLE");
 
-		Pjtext.setEditable(false);
-		Pjtext.setEnabled(false);
-		Pjtext.addActionListener(new java.awt.event.ActionListener() {
+		jLabel8.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+		jLabel8.setText("ALGORITMO - BEST FIRST (A) ");
+
+		PJtext.setEditable(false);
+		PJtext.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				PjtextActionPerformed(evt);
+				PJtextActionPerformed(evt);
 			}
 		});
-		getContentPane().add(
-				Pjtext,
-				new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 420, 50,
-						30));
 
-		Qjtext.setEditable(false);
-		Qjtext.setEnabled(false);
-		Qjtext.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				QjtextActionPerformed(evt);
-			}
-		});
-		getContentPane().add(
-				Qjtext,
-				new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 456, 50,
-						30));
+		QJtext.setEditable(false);
 
-		jLabel5.setText("Camino:");
-		getContentPane().add(
-				jLabel5,
-				new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 500, -1,
-						-1));
-
-		caminojtext.setEditable(false);
-		caminojtext.setEnabled(false);
-		getContentPane().add(
-				caminojtext,
-				new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 490,
-						270, 30));
-
-		arbolbtn.setText("Ver árbol");
-		arbolbtn.setEnabled(false);
-		arbolbtn.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				arbolbtnActionPerformed(evt);
-			}
-		});
-		getContentPane().add(
-				arbolbtn,
-				new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 550, -1,
-						40));
-
-		etiquetaSol.setEnabled(false);
-		getContentPane().add(
-				etiquetaSol,
-				new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 550,
-						150, 20));
+		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
+				getContentPane());
+		getContentPane().setLayout(layout);
+		layout.setHorizontalGroup(layout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(
+						layout.createSequentialGroup()
+								.addGap(59, 59, 59)
+								.addGroup(
+										layout.createParallelGroup(
+												javax.swing.GroupLayout.Alignment.LEADING)
+												.addGroup(
+														layout.createSequentialGroup()
+																.addGroup(
+																		layout.createParallelGroup(
+																				javax.swing.GroupLayout.Alignment.LEADING)
+																				.addGroup(
+																						layout.createSequentialGroup()
+																								.addGroup(
+																										layout.createParallelGroup(
+																												javax.swing.GroupLayout.Alignment.LEADING,
+																												false)
+																												.addGroup(
+																														layout.createSequentialGroup()
+																																.addComponent(
+																																		jLabel2)
+																																.addPreferredGap(
+																																		javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+																																.addComponent(
+																																		pesoAlpha))
+																												.addComponent(
+																														jLabel1))
+																								.addPreferredGap(
+																										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+																								.addGroup(
+																										layout.createParallelGroup(
+																												javax.swing.GroupLayout.Alignment.LEADING)
+																												.addComponent(
+																														opcion,
+																														javax.swing.GroupLayout.PREFERRED_SIZE,
+																														155,
+																														javax.swing.GroupLayout.PREFERRED_SIZE)
+																												.addComponent(
+																														jLabel3)))
+																				.addComponent(
+																						btnGenerar,
+																						javax.swing.GroupLayout.PREFERRED_SIZE,
+																						123,
+																						javax.swing.GroupLayout.PREFERRED_SIZE))
+																.addGap(48, 48,
+																		48)
+																.addGroup(
+																		layout.createParallelGroup(
+																				javax.swing.GroupLayout.Alignment.LEADING)
+																				.addGroup(
+																						layout.createSequentialGroup()
+																								.addComponent(
+																										jLabel6)
+																								.addPreferredGap(
+																										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+																								.addComponent(
+																										caminoJtext))
+																				.addGroup(
+																						layout.createSequentialGroup()
+																								.addGroup(
+																										layout.createParallelGroup(
+																												javax.swing.GroupLayout.Alignment.LEADING)
+																												.addGroup(
+																														layout.createSequentialGroup()
+																																.addComponent(
+																																		verArbolBtn,
+																																		javax.swing.GroupLayout.PREFERRED_SIZE,
+																																		123,
+																																		javax.swing.GroupLayout.PREFERRED_SIZE)
+																																.addGap(18,
+																																		18,
+																																		18)
+																																.addComponent(
+																																		etiqueta,
+																																		javax.swing.GroupLayout.PREFERRED_SIZE,
+																																		231,
+																																		javax.swing.GroupLayout.PREFERRED_SIZE))
+																												.addGroup(
+																														layout.createSequentialGroup()
+																																.addGroup(
+																																		layout.createParallelGroup(
+																																				javax.swing.GroupLayout.Alignment.LEADING)
+																																				.addComponent(
+																																						jLabel4)
+																																				.addComponent(
+																																						jLabel5))
+																																.addGap(55,
+																																		55,
+																																		55)
+																																.addGroup(
+																																		layout.createParallelGroup(
+																																				javax.swing.GroupLayout.Alignment.LEADING)
+																																				.addComponent(
+																																						QJtext,
+																																						javax.swing.GroupLayout.PREFERRED_SIZE,
+																																						50,
+																																						javax.swing.GroupLayout.PREFERRED_SIZE)
+																																				.addComponent(
+																																						PJtext,
+																																						javax.swing.GroupLayout.PREFERRED_SIZE,
+																																						50,
+																																						javax.swing.GroupLayout.PREFERRED_SIZE))))
+																								.addGap(0,
+																										9,
+																										Short.MAX_VALUE)))
+																.addContainerGap())
+												.addGroup(
+														layout.createSequentialGroup()
+																.addComponent(
+																		jPanel1,
+																		javax.swing.GroupLayout.PREFERRED_SIZE,
+																		javax.swing.GroupLayout.DEFAULT_SIZE,
+																		javax.swing.GroupLayout.PREFERRED_SIZE)
+																.addPreferredGap(
+																		javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+																		javax.swing.GroupLayout.DEFAULT_SIZE,
+																		Short.MAX_VALUE)
+																.addComponent(
+																		jPanel2,
+																		javax.swing.GroupLayout.PREFERRED_SIZE,
+																		javax.swing.GroupLayout.DEFAULT_SIZE,
+																		javax.swing.GroupLayout.PREFERRED_SIZE)
+																.addGap(58, 58,
+																		58))))
+				.addGroup(
+						layout.createSequentialGroup()
+								.addGap(293, 293, 293)
+								.addGroup(
+										layout.createParallelGroup(
+												javax.swing.GroupLayout.Alignment.LEADING)
+												.addGroup(
+														layout.createSequentialGroup()
+																.addGap(70, 70,
+																		70)
+																.addComponent(
+																		jLabel7))
+												.addComponent(jLabel8))
+								.addGap(0, 0, Short.MAX_VALUE)));
+		layout.setVerticalGroup(layout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(
+						layout.createSequentialGroup()
+								.addContainerGap()
+								.addComponent(jLabel7)
+								.addPreferredGap(
+										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addComponent(jLabel8)
+								.addGap(64, 64, 64)
+								.addGroup(
+										layout.createParallelGroup(
+												javax.swing.GroupLayout.Alignment.TRAILING)
+												.addComponent(
+														jPanel2,
+														javax.swing.GroupLayout.PREFERRED_SIZE,
+														javax.swing.GroupLayout.DEFAULT_SIZE,
+														javax.swing.GroupLayout.PREFERRED_SIZE)
+												.addComponent(
+														jPanel1,
+														javax.swing.GroupLayout.PREFERRED_SIZE,
+														javax.swing.GroupLayout.DEFAULT_SIZE,
+														javax.swing.GroupLayout.PREFERRED_SIZE))
+								.addGroup(
+										layout.createParallelGroup(
+												javax.swing.GroupLayout.Alignment.LEADING)
+												.addGroup(
+														layout.createSequentialGroup()
+																.addGap(26, 26,
+																		26)
+																.addGroup(
+																		layout.createParallelGroup(
+																				javax.swing.GroupLayout.Alignment.BASELINE)
+																				.addComponent(
+																						jLabel1)
+																				.addComponent(
+																						opcion,
+																						javax.swing.GroupLayout.PREFERRED_SIZE,
+																						javax.swing.GroupLayout.DEFAULT_SIZE,
+																						javax.swing.GroupLayout.PREFERRED_SIZE))
+																.addGap(18, 18,
+																		18)
+																.addGroup(
+																		layout.createParallelGroup(
+																				javax.swing.GroupLayout.Alignment.BASELINE)
+																				.addComponent(
+																						jLabel2)
+																				.addComponent(
+																						pesoAlpha,
+																						javax.swing.GroupLayout.PREFERRED_SIZE,
+																						43,
+																						javax.swing.GroupLayout.PREFERRED_SIZE)
+																				.addComponent(
+																						jLabel3)))
+												.addGroup(
+														layout.createSequentialGroup()
+																.addGroup(
+																		layout.createParallelGroup(
+																				javax.swing.GroupLayout.Alignment.LEADING)
+																				.addGroup(
+																						layout.createSequentialGroup()
+																								.addGap(26,
+																										26,
+																										26)
+																								.addComponent(
+																										jLabel4))
+																				.addGroup(
+																						layout.createSequentialGroup()
+																								.addPreferredGap(
+																										javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+																								.addComponent(
+																										PJtext,
+																										javax.swing.GroupLayout.PREFERRED_SIZE,
+																										36,
+																										javax.swing.GroupLayout.PREFERRED_SIZE)))
+																.addGap(18, 18,
+																		18)
+																.addGroup(
+																		layout.createParallelGroup(
+																				javax.swing.GroupLayout.Alignment.BASELINE)
+																				.addComponent(
+																						jLabel5)
+																				.addComponent(
+																						QJtext,
+																						javax.swing.GroupLayout.PREFERRED_SIZE,
+																						36,
+																						javax.swing.GroupLayout.PREFERRED_SIZE))
+																.addGap(18, 18,
+																		18)
+																.addGroup(
+																		layout.createParallelGroup(
+																				javax.swing.GroupLayout.Alignment.BASELINE)
+																				.addComponent(
+																						jLabel6)
+																				.addComponent(
+																						caminoJtext,
+																						javax.swing.GroupLayout.PREFERRED_SIZE,
+																						40,
+																						javax.swing.GroupLayout.PREFERRED_SIZE))))
+								.addGroup(
+										layout.createParallelGroup(
+												javax.swing.GroupLayout.Alignment.LEADING)
+												.addGroup(
+														layout.createSequentialGroup()
+																.addGap(38, 38,
+																		38)
+																.addGroup(
+																		layout.createParallelGroup(
+																				javax.swing.GroupLayout.Alignment.BASELINE)
+																				.addComponent(
+																						btnGenerar,
+																						javax.swing.GroupLayout.PREFERRED_SIZE,
+																						54,
+																						javax.swing.GroupLayout.PREFERRED_SIZE)
+																				.addComponent(
+																						verArbolBtn,
+																						javax.swing.GroupLayout.PREFERRED_SIZE,
+																						54,
+																						javax.swing.GroupLayout.PREFERRED_SIZE)))
+												.addGroup(
+														layout.createSequentialGroup()
+																.addGap(49, 49,
+																		49)
+																.addComponent(
+																		etiqueta,
+																		javax.swing.GroupLayout.PREFERRED_SIZE,
+																		31,
+																		javax.swing.GroupLayout.PREFERRED_SIZE)))
+								.addContainerGap(109, Short.MAX_VALUE)));
 
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
-	private void I1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_I1ActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_I1ActionPerformed
+	private void iniciarField(final JTextField I7) {
+		I7.setBackground(new java.awt.Color(221, 240, 251));
+		I7.setFont(new java.awt.Font("Lucida Grande", 1, 36)); // NOI18N
+		I7.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+		I7.setBorder(javax.swing.BorderFactory
+				.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+		I7.setName("I1"); // NOI18N
+		java.awt.event.KeyAdapter keyAdapter = null;
+		keyAdapter = new java.awt.event.KeyAdapter() {
+			public void keyTyped(java.awt.event.KeyEvent evt) {
+				validar(evt, I7);
+			}
+		};
+		I7.addKeyListener(keyAdapter);
 
-	private void I4ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_I4ActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_I4ActionPerformed
+	}
 
-	private void I7ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_I7ActionPerformed
+	private void PJtextActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_PJtextActionPerformed
 		// TODO add your handling code here:
-	}// GEN-LAST:event_I7ActionPerformed
+	}// GEN-LAST:event_PJtextActionPerformed
 
-	private void I2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_I2ActionPerformed
+	private void pesoAlphaKeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_pesoAlphaKeyTyped
 		// TODO add your handling code here:
-	}// GEN-LAST:event_I2ActionPerformed
+		char caracter = evt.getKeyChar();
 
-	private void I5ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_I5ActionPerformed
+		if (((caracter < '0') || (caracter > '9'))
+				&& (caracter != evt.VK_BACK_SPACE) && (caracter != '.')) {
+
+			evt.consume();
+		}
+	}// GEN-LAST:event_pesoAlphaKeyTyped
+
+	private void verArbolBtnActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_verArbolBtnActionPerformed
 		// TODO add your handling code here:
-	}// GEN-LAST:event_I5ActionPerformed
+		if (this.arbol.solucion() != null) {
+			ArbolPuzzleGraph apg = new ArbolPuzzleGraph(this.arbol);
+			// apg.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			apg.setSize(1024, 768);
+			apg.setVisible(true);
+		}
+	}// GEN-LAST:event_verArbolBtnActionPerformed
 
-	private void I8ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_I8ActionPerformed
+	private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnGenerarActionPerformed
 		// TODO add your handling code here:
-	}// GEN-LAST:event_I8ActionPerformed
-
-	private void I3ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_I3ActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_I3ActionPerformed
-
-	private void I9ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_I9ActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_I9ActionPerformed
-
-	private void I6ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_I6ActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_I6ActionPerformed
-
-	private void S1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_S1ActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_S1ActionPerformed
-
-	private void S4ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_S4ActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_S4ActionPerformed
-
-	private void S7ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_S7ActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_S7ActionPerformed
-
-	private void S2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_S2ActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_S2ActionPerformed
-
-	private void S5ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_S5ActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_S5ActionPerformed
-
-	private void S8ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_S8ActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_S8ActionPerformed
-
-	private void S3ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_S3ActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_S3ActionPerformed
-
-	private void S9ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_S9ActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_S9ActionPerformed
-
-	private void S6ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_S6ActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_S6ActionPerformed
-
-	private void generarArbol1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_generarArbol1ActionPerformed
 		String cadenaInicial, cadenaSol, camino = "", p, q;
 		boolean banderaSol = false;
 		int P = 0, Q = 0, opcionL = 0;
-		float peso = 0.0f;
-		char opc;
+		float peso = 1.0f;
+		char opc = 'I';
 
-		if (pesoAlpha.getText().equals(0)) {
-			pesoAlpha.setEnabled(false);
-			peso = 1.0f;
-		} else {
+		if (!pesoAlpha.getText().equals("")) {
 			peso = Float.parseFloat(pesoAlpha.getText());
 		}
-		if (opcionL == 0)
-			opc = 'I';
-		else
-			opc = 'D';
-		cadenaInicial = I1.getText() + " " + I2.getText() + " " + I3.getText()
-				+ " " + I4.getText() + " " + I5.getText() + " " + I6.getText()
-				+ " " + I7.getText() + " " + I8.getText() + " " + I9.getText();
-		cadenaSol = S1.getText() + " " + S2.getText() + " " + S3.getText()
-				+ " " + S4.getText() + " " + S5.getText() + " " + S6.getText()
-				+ " " + S7.getText() + " " + S8.getText() + " " + S9.getText();
-		Puzzle pInicial = new Puzzle(cadenaInicial.replaceAll("x", "X"));
+		cadenaInicial = getString(iniciales);
+		cadenaSol = getString(finales);
+
+
+		Puzzle pInicial = new Puzzle(cadenaInicial.replaceAll("0", "X"));
+
 		if (opc == 'I') {
 			pInicial.heuristicaIncorrecto();
 		} else {
 			pInicial.heuristicaDifferencia();
 		}
-		Puzzle pFinal = new Puzzle(cadenaSol.replaceAll("x", "X"));
+		Puzzle pFinal = new Puzzle(cadenaSol.replaceAll("0", "X"));
 		pInicial.solucion(pFinal);
 		pInicial.factor(peso);
 		ArbolGeneradorPuzzle G = new ArbolGeneradorPuzzle();
@@ -899,380 +828,82 @@ public class GUI_Puzzle extends javax.swing.JFrame {
 			banderaSol = true;
 		}
 
+			caminoJtext.setEditable(false);
 		if (banderaSol != false) {
-			Pjtext.setText("" + P);
-			Qjtext.setText("" + Q);
-			caminojtext.setText(camino);
-			arbolbtn.setEnabled(true);
-			etiquetaSol.setEnabled(false);
-			etiquetaSol.setText("");
+			PJtext.setText("" + P);
+			QJtext.setText("" + Q);
+			caminoJtext.setText(camino);
+			verArbolBtn.setEnabled(true);
+			etiqueta.setEnabled(false);
+			etiqueta.setText("");
 		} else {
-			etiquetaSol.setEnabled(true);
-			etiquetaSol.setText("¡No hay solución!");
-			caminojtext.setText("");
-			Pjtext.setText("" + P);
-			Qjtext.setText("" + Q);
+			etiqueta.setEnabled(true);
+			etiqueta.setText("¡No hay solución!");
+			caminoJtext.setText("");
+			PJtext.setText("" + P);
+			QJtext.setText("" + Q);
 		}
 
-		System.out.println("Cadena I:  " + cadenaInicial + " cadena Sol "
-				+ cadenaSol + " peso :" + peso + " opc " + opc);
+	}// GEN-LAST:event_btnGenerarActionPerformed
 
-	}// GEN-LAST:event_generarArbol1ActionPerformed
+	private static String caracterValidos = "123456780";
 
-	private void opcionActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_opcionActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_opcionActionPerformed
+	public void validar(KeyEvent evt, JTextField text) {
+		String caracter = evt.getKeyChar() + "";
 
-	private void I1KeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_I1KeyTyped
-		// TODO add your handling code here:
-		if (I1.getText().length() == 1)
+		String cadenaActual = getString(text);
+		if (!caracterValidos.contains(caracter)) {
 			evt.consume();
-		char caracter = evt.getKeyChar();
-
-		if (caracter == '0')
-			I1.setText("x");
-		// Verificar si la tecla pulsada no es un digito
-		if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*
-																		 * corresponde
-																		 * a
-																		 * BACK_SPACE
-																		 */)) {
-			evt.consume(); // ignorar el evento de teclado
+			return;
 		}
-	}// GEN-LAST:event_I1KeyTyped
-
-	private void I2KeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_I2KeyTyped
-		// TODO add your handling code here:
-		if (this.I2.getText().length() == 1)
+		if (cadenaActual.contains(caracter)) {
 			evt.consume();
-		char caracter = evt.getKeyChar();
-		if (caracter == '0')
-			I2.setText("x");
-		// Verificar si la tecla pulsada no es un digito
-		if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*
-																		 * corresponde
-																		 * a
-																		 * BACK_SPACE
-																		 */)) {
-			evt.consume(); // ignorar el evento de teclado
+			return;
 		}
 
-	}// GEN-LAST:event_I2KeyTyped
+		focusSiguiente(text);
 
-	private void I3KeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_I3KeyTyped
-		// TODO add your handling code here:
-		if (this.I3.getText().length() == 1)
-			evt.consume();
-		char caracter = evt.getKeyChar();
-		if (caracter == '0')
-			I3.setText("x");
-		// Verificar si la tecla pulsada no es un digito
-		if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*
-																		 * corresponde
-																		 * a
-																		 * BACK_SPACE
-																		 */)) {
-			evt.consume(); // ignorar el evento de teclado
-		}
-	}// GEN-LAST:event_I3KeyTyped
-
-	private void I4KeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_I4KeyTyped
-		// TODO add your handling code here:
-		if (this.I4.getText().length() == 1)
-			evt.consume();
-		char caracter = evt.getKeyChar();
-		if (caracter == '0')
-			I4.setText("x");
-		// Verificar si la tecla pulsada no es un digito
-		if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*
-																		 * corresponde
-																		 * a
-																		 * BACK_SPACE
-																		 */)) {
-			evt.consume(); // ignorar el evento de teclado
-		}
-	}// GEN-LAST:event_I4KeyTyped
-
-	private void I5KeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_I5KeyTyped
-		// TODO add your handling code here:
-		if (this.I5.getText().length() == 1)
-			evt.consume();
-		char caracter = evt.getKeyChar();
-		if (caracter == '0')
-			I5.setText("x");
-		// Verificar si la tecla pulsada no es un digito
-		if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*
-																		 * corresponde
-																		 * a
-																		 * BACK_SPACE
-																		 */)) {
-			evt.consume(); // ignorar el evento de teclado
-		}
-	}// GEN-LAST:event_I5KeyTyped
-
-	private void I6KeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_I6KeyTyped
-		// TODO add your handling code here:
-		if (this.I6.getText().length() == 1)
-			evt.consume();
-		char caracter = evt.getKeyChar();
-		if (caracter == '0')
-			I6.setText("x");
-		// Verificar si la tecla pulsada no es un digito
-		if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*
-																		 * corresponde
-																		 * a
-																		 * BACK_SPACE
-																		 */)) {
-			evt.consume(); // ignorar el evento de teclado
-		}
-	}// GEN-LAST:event_I6KeyTyped
-
-	private void I7KeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_I7KeyTyped
-		// TODO add your handling code here:
-		if (this.I7.getText().length() == 1)
-			evt.consume();
-		char caracter = evt.getKeyChar();
-		if (caracter == '0')
-			I7.setText("x");
-		// Verificar si la tecla pulsada no es un digito
-		if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*
-																		 * corresponde
-																		 * a
-																		 * BACK_SPACE
-																		 */)) {
-			evt.consume(); // ignorar el evento de teclado
-		}
-	}// GEN-LAST:event_I7KeyTyped
-
-	private void I8KeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_I8KeyTyped
-		// TODO add your handling code here:
-
-		if (I8.getText().length() == 1)
-			evt.consume();
-		char caracter = evt.getKeyChar();
-		if (caracter == '0')
-			I8.setText("x");
-		// Verificar si la tecla pulsada no es un digito
-		if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*
-																		 * corresponde
-																		 * a
-																		 * BACK_SPACE
-																		 */)) {
-			evt.consume(); // ignorar el evento de teclado
-		}
-	}// GEN-LAST:event_I8KeyTyped
-
-	private void I9KeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_I9KeyTyped
-		// TODO add your handling code here:
-		if (this.I9.getText().length() == 1)
-			evt.consume();
-		char caracter = evt.getKeyChar();
-		if (caracter == '0')
-			I9.setText("x");
-		// Verificar si la tecla pulsada no es un digito
-		if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*
-																		 * corresponde
-																		 * a
-																		 * BACK_SPACE
-																		 */)) {
-			evt.consume(); // ignorar el evento de teclado
-		}
-	}// GEN-LAST:event_I9KeyTyped
-
-	private void S1KeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_S1KeyTyped
-		// TODO add your handling code here:
-		if (this.S1.getText().length() == 1)
-			evt.consume();
-		char caracter = evt.getKeyChar();
-		if (caracter == '0')
-			S1.setText("x");
-		// Verificar si la tecla pulsada no es un digito
-		if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*
-																		 * corresponde
-																		 * a
-																		 * BACK_SPACE
-																		 */)) {
-			evt.consume(); // ignorar el evento de teclado
-		}
-	}// GEN-LAST:event_S1KeyTyped
-
-	private void pesoAlphaKeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_pesoAlphaKeyTyped
-		// TODO add your handling code here:
-		char caracter = evt.getKeyChar();
-
-		if (((caracter < '0') || (caracter > '9'))
-				&& (caracter != evt.VK_BACK_SPACE) && (caracter != '.')) {
-			/*
-			 * lo que deseo colocar aqui es si ya se pulso el caracter (.) el
-			 * mismo no se pueda repetir
-			 */
-			evt.consume();
-		}
-
-	}// GEN-LAST:event_pesoAlphaKeyTyped
-
-	private void QjtextActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_QjtextActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_QjtextActionPerformed
-
-	private void pesoAlphaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_pesoAlphaActionPerformed
-		// TODO add your handling code here:
-
-	}// GEN-LAST:event_pesoAlphaActionPerformed
-
-	private void PjtextActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_PjtextActionPerformed
-		// TODO add your handling code here:
-	}// GEN-LAST:event_PjtextActionPerformed
-
-	private void arbolbtnActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_arbolbtnActionPerformed
-		// TODO add your handling code here:
-
-		// Llamar a función que genera árbol
-
-		if (this.arbol.solucion() != null) {
-			ArbolPuzzleGraph apg = new ArbolPuzzleGraph(this.arbol);
-//			apg.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			apg.setSize(1024, 768);
-			apg.setVisible(true);
-		}
-
-	}// GEN-LAST:event_arbolbtnActionPerformed
-
-	private void S2KeyTyped(java.awt.event.KeyEvent evt) {
-		// TODO add your handling code here:
-		if (this.S2.getText().length() == 1)
-			evt.consume();
-		char caracter = evt.getKeyChar();
-		if (caracter == '0')
-			S2.setText("x");
-		// Verificar si la tecla pulsada no es un digito
-		if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*
-																		 * corresponde
-																		 * a
-																		 * BACK_SPACE
-																		 */)) {
-			evt.consume(); // ignorar el evento de teclado
-		}
 	}
 
-	private void S3KeyTyped(java.awt.event.KeyEvent evt) {
-		// TODO add your handling code here:
-		if (this.S3.getText().length() == 1)
-			evt.consume();
-		char caracter = evt.getKeyChar();
-		if (caracter == '0')
-			S3.setText("x");
-		// Verificar si la tecla pulsada no es un digito
-		if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*
-																		 * corresponde
-																		 * a
-																		 * BACK_SPACE
-																		 */)) {
-			evt.consume(); // ignorar el evento de teclado
+	private void focusSiguiente(JTextField text) {
+		JTextField sig = siguienteField(text, secuencia);
+		if (sig != null) {
+			sig.requestFocus();
 		}
+
 	}
 
-	private void S4KeyTyped(java.awt.event.KeyEvent evt) {
-		// TODO add your handling code here:
-		if (this.S4.getText().length() == 1)
-			evt.consume();
-		char caracter = evt.getKeyChar();
-		if (caracter == '0')
-			S4.setText("x");
-		// Verificar si la tecla pulsada no es un digito
-		if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*
-																		 * corresponde
-																		 * a
-																		 * BACK_SPACE
-																		 */)) {
-			evt.consume(); // ignorar el evento de teclado
+	private JTextField siguienteField(JTextField text,
+			List<JTextField> iniciales2) {
+		Iterator<JTextField> it = iniciales2.iterator();
+		JTextField s = null;
+		while (it.hasNext()) {
+			if (it.next().equals(text) && it.hasNext()) {
+				s = it.next();
+			}
 		}
+		return s;
 	}
 
-	private void S5KeyTyped(java.awt.event.KeyEvent evt) {
-		// TODO add your handling code here:
-		if (this.S5.getText().length() == 1)
-			evt.consume();
-		char caracter = evt.getKeyChar();
-		if (caracter == '0')
-			S5.setText("x");
-		// Verificar si la tecla pulsada no es un digito
-		if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*
-																		 * corresponde
-																		 * a
-																		 * BACK_SPACE
-																		 */)) {
-			evt.consume(); // ignorar el evento de teclado
+	private String getString(JTextField text) {
+		String s;
+		if (iniciales.contains(text)) {
+			s = getString(iniciales);
+		} else {
+			s = getString(finales);
 		}
+		return s;
 	}
 
-	private void S6KeyTyped(java.awt.event.KeyEvent evt) {
-		// TODO add your handling code here:
-		if (this.S6.getText().length() == 1)
-			evt.consume();
-		char caracter = evt.getKeyChar();
-		if (caracter == '0')
-			S6.setText("x");
-		// Verificar si la tecla pulsada no es un digito
-		if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*
-																		 * corresponde
-																		 * a
-																		 * BACK_SPACE
-																		 */)) {
-			evt.consume(); // ignorar el evento de teclado
+	private String getString(List<JTextField> iniciales2) {
+		StringBuilder sb = new StringBuilder();
+		for (JTextField f : iniciales2) {
+			sb.append(f.getText());
+			sb.append(" ");
 		}
+		return sb.toString().trim();
 	}
 
-	private void S7KeyTyped(java.awt.event.KeyEvent evt) {
-		// TODO add your handling code here:
-		if (this.S7.getText().length() == 1)
-			evt.consume();
-		char caracter = evt.getKeyChar();
-		if (caracter == '0')
-			S7.setText("x");
-		// Verificar si la tecla pulsada no es un digito
-		if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*
-																		 * corresponde
-																		 * a
-																		 * BACK_SPACE
-																		 */)) {
-			evt.consume(); // ignorar el evento de teclado
-		}
-	}
-
-	private void S8KeyTyped(java.awt.event.KeyEvent evt) {
-		// TODO add your handling code here:
-		if (this.S8.getText().length() == 1)
-			evt.consume();
-		char caracter = evt.getKeyChar();
-		if (caracter == '0')
-			S8.setText("x");
-		// Verificar si la tecla pulsada no es un digito
-		if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*
-																		 * corresponde
-																		 * a
-																		 * BACK_SPACE
-																		 */)) {
-			evt.consume(); // ignorar el evento de teclado
-		}
-	}
-
-	private void S9KeyTyped(java.awt.event.KeyEvent evt) {
-		// TODO add your handling code here:
-		if (this.S9.getText().length() == 1)
-			evt.consume();
-		char caracter = evt.getKeyChar();
-		if (caracter == '0')
-			S9.setText("x");
-		// Verificar si la tecla pulsada no es un digito
-		if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*
-																		 * corresponde
-																		 * a
-																		 * BACK_SPACE
-																		 */)) {
-			evt.consume(); // ignorar el evento de teclado
-		}
-	}
 
 	/**
 	 * @param args
@@ -1310,6 +941,7 @@ public class GUI_Puzzle extends javax.swing.JFrame {
 					java.util.logging.Level.SEVERE, null, ex);
 		}
 		// </editor-fold>
+		// </editor-fold>
 
 		/* Create and display the form */
 		java.awt.EventQueue.invokeLater(new Runnable() {
@@ -1317,12 +949,20 @@ public class GUI_Puzzle extends javax.swing.JFrame {
 				new GUI_Puzzle().setVisible(true);
 			}
 		});
-
 	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JTextField I1;
+	private javax.swing.JTextField I19;
 	private javax.swing.JTextField I2;
+	private javax.swing.JTextField I20;
+	private javax.swing.JTextField I21;
+	private javax.swing.JTextField I22;
+	private javax.swing.JTextField I23;
+	private javax.swing.JTextField I24;
+	private javax.swing.JTextField I25;
+	private javax.swing.JTextField I26;
+	private javax.swing.JTextField I27;
 	private javax.swing.JTextField I3;
 	private javax.swing.JTextField I4;
 	private javax.swing.JTextField I5;
@@ -1330,34 +970,23 @@ public class GUI_Puzzle extends javax.swing.JFrame {
 	private javax.swing.JTextField I7;
 	private javax.swing.JTextField I8;
 	private javax.swing.JTextField I9;
-	private javax.swing.JTextField Pjtext;
-	private javax.swing.JLabel Ptxt;
-	private javax.swing.JTextField Qjtext;
-	private javax.swing.JTextField S1;
-	private javax.swing.JTextField S2;
-	private javax.swing.JTextField S3;
-	private javax.swing.JTextField S4;
-	private javax.swing.JTextField S5;
-	private javax.swing.JTextField S6;
-	private javax.swing.JTextField S7;
-	private javax.swing.JTextField S8;
-	private javax.swing.JTextField S9;
-	private javax.swing.JButton arbolbtn;
-	private javax.swing.JTextField caminojtext;
-	private javax.swing.JLabel etiquetaSol;
-	private javax.swing.JButton generarArbol1;
+	private javax.swing.JTextField PJtext;
+	private javax.swing.JTextField QJtext;
+	private javax.swing.JButton btnGenerar;
+	private javax.swing.JTextField caminoJtext;
+	private javax.swing.JLabel etiqueta;
 	private javax.swing.JLabel jLabel1;
-	private javax.swing.JLabel jLabel10;
-	private javax.swing.JLabel jLabel11;
 	private javax.swing.JLabel jLabel2;
 	private javax.swing.JLabel jLabel3;
 	private javax.swing.JLabel jLabel4;
 	private javax.swing.JLabel jLabel5;
 	private javax.swing.JLabel jLabel6;
-	private javax.swing.JLabel jLabel9;
-	private javax.swing.JLayeredPane jLayeredPane1;
-	private javax.swing.JLayeredPane jLayeredPane2;
+	private javax.swing.JLabel jLabel7;
+	private javax.swing.JLabel jLabel8;
+	private javax.swing.JPanel jPanel1;
+	private javax.swing.JPanel jPanel2;
 	private javax.swing.JComboBox<String> opcion;
 	private javax.swing.JTextField pesoAlpha;
+	private javax.swing.JButton verArbolBtn;
 	// End of variables declaration//GEN-END:variables
 }
