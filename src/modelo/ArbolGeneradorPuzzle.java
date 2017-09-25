@@ -30,15 +30,13 @@ public class ArbolGeneradorPuzzle extends Grafo<Puzzle> {
 		sol = s;
 		raiz = p;
 		Q = new HashSet<Puzzle>();
-		P = new PuzzleQueue();
+		P = new PuzzleQueue(); //Coleccion optimizada de Puzzle
 		P.add(p);
-
 		Puzzle u;
 		while (!P.contains(s) && !P.isEmpty()) {
-			u = P.poll();
+			u = P.poll(); //Obtener y remover primer elemento de P
 			expander(u);
 		}
-
 		solucionGenerada = P.get(sol);
 		if (solucionGenerada != null) {
 			Q.add(solucionGenerada);
@@ -52,6 +50,7 @@ public class ArbolGeneradorPuzzle extends Grafo<Puzzle> {
 
 	private void expander(Puzzle u) {
 		Q.add(u);
+		//Padre se agrega automaticamente en este paso
 		List<Puzzle> sucesores = u.obtenerSucesores();
 		for (Puzzle v : sucesores) {
 			if (!P.contains(v) && !Q.contains(v)) {

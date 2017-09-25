@@ -773,7 +773,7 @@ public class GUI_Puzzle extends javax.swing.JFrame {
 		char caracter = evt.getKeyChar();
 
 		if (((caracter < '0') || (caracter > '9'))
-				&& (caracter != evt.VK_BACK_SPACE) && (caracter != '.')) {
+				&& (caracter != evt.VK_BACK_SPACE) && ((caracter != '.') || pesoAlpha.getText().contains("."))) {
 
 			evt.consume();
 		}
