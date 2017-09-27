@@ -28,7 +28,7 @@ public class Puzzle extends Vertice<Puzzle> implements Comparable<Puzzle> {
 	Integer[][] matriz;
 
 	Integer altura = 0; // altura en arbol y valor de funcion heuristica
-	Integer valorHeuristico=null; // valor de la funcion heuristica
+	Float valorHeuristico=null; // valor de la funcion heuristica
 
 	Coordenada vacio;
 
@@ -71,6 +71,7 @@ public class Puzzle extends Vertice<Puzzle> implements Comparable<Puzzle> {
 		this.padre = padre;
 		this.solucion = padre.solucion;
 		this.factor = padre.factor;
+		this.altura=padre.altura+1;
 		n = padre.n;
 		this.funcionHeuristica = padre.funcionHeuristica;
 
@@ -130,21 +131,23 @@ public class Puzzle extends Vertice<Puzzle> implements Comparable<Puzzle> {
 	}
 
 	public Float valorPuzzle() {
-		return calcularAltura() + (factor * calcularHeuristica(solucion));
+		Float x =  calcularAltura() + (factor * (Float)calcularHeuristica(solucion));
+//		System.out.println(x);
+		return x;
 	}
 
-	public int funcionHeuristica(Puzzle o) {
+	public Float funcionHeuristica(Puzzle o) {
 		if (valorHeuristico != null) {
 			return valorHeuristico;
 		}
 		//significa que es la solucion
 		if(o==null){
-			return 0;
+			return 0f;
 		}
 		Coordenada cp = new Coordenada(0,0);
 		Coordenada cs = new Coordenada(0,0);
 		Integer xp, xs;
-		int sum = 0;
+		float sum = 0;
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
 				cp.set(i, j); 
@@ -297,7 +300,7 @@ public class Puzzle extends Vertice<Puzzle> implements Comparable<Puzzle> {
 		this.factor = peso;
 	}
 
-	public int funcionHeuristica() {
+	public float funcionHeuristica() {
 		return funcionHeuristica(solucion);
 	}
 }
