@@ -92,4 +92,8 @@ public class Matching {
 		}
 		return diff;
 	}
+
+	public boolean isXSaturated(int i) {
+		return xSaturated[i];
+	}
 }

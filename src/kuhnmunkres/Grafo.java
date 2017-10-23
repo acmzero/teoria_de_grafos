@@ -12,7 +12,7 @@ import java.util.Queue;
 import java.util.Set;
 
 public class Grafo {
-	int mAdj[][];
+	int mAdj[][], mInicial[][];
 	int N = 5;
 	int XG[], YG[];
 
@@ -23,9 +23,10 @@ public class Grafo {
 
 	public Grafo() {
 		mAdj = new int[N][N];
-		int[][] mat = { { 4, 5, 5, 4, 1 }, { 2, 2, 0, 2, 2 },
+		int[][] mat = { { 4, 5, 50, 4, 1 }, { 2, 2, 0, 2, 2 },
 				{ 2, 4, 4, 1, 0 }, { 0, 1, 1, 0, 0 }, { 1, 2, 1, 3, 3 } };
 		mAdj = mat;
+		mInicial = mat;
 	}
 
 	public Grafo(int[][] mAdj2, int[] X, int[] Y, int n) {
@@ -38,7 +39,7 @@ public class Grafo {
 				if (mAdj2[i][j] == X[i] + Y[j]) {
 					mAdj[i][j] = mAdj2[i][j];
 				} else {
-					mAdj[i][j] = 0;
+					mAdj[i][j] = -1;
 				}
 			}
 		}
@@ -54,9 +55,9 @@ public class Grafo {
 		for (int i = 0; i < N; i++) {
 			verticesX[i] = new Vertice(i);
 			verticesY[i] = new Vertice(i);
+			verticesG.add(verticesX[i]);
+			verticesG.add(verticesY[i]);
 		}
-		// Arrays.fill(verticesX, new Vertice());
-		// Arrays.fill(verticesY, new Vertice());
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
 				verticesX[i].addChildren(verticesY[j]);
@@ -90,7 +91,7 @@ public class Grafo {
 
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
-				if (mAdj[i][j] > 0 && !m.isYSaturated(j)) {
+				if (mAdj[i][j] > 0 && !m.isYSaturated(j) && !m.isXSaturated(i)) {
 					m.addEdge(i, j);
 				}
 			}
@@ -107,6 +108,7 @@ public class Grafo {
 		YG = etInicial[1];
 		Grafo gl = new Grafo(mAdj, etInicial[0], etInicial[1], N);
 		Matching mi = gl.matching();
+		imprimeAristas(mi.aristas);
 		do {
 			int idxU = mi.isXSaturated();
 			if (idxU < 0) {
@@ -119,13 +121,10 @@ public class Grafo {
 
 			boolean ySat = true;
 			do {
-				Set<Integer> vecinosS = gl.vecinos(S);
-				imprimeAristas(mi.aristas);
+//				Set<Integer> vecinosS = gl.vecinos(S);
 
-				boolean tSubN = (T.isEmpty() && !vecinosS.isEmpty())
-						|| vecinosS.containsAll(T);
-				tSubN = tSubN && !T.containsAll(vecinosS);
-				if (!tSubN) {
+				boolean tEqN = gl.vecinos(S).containsAll(T) && T.containsAll(gl.vecinos(S));
+				if (tEqN) {
 					// si !tSubN entonces T == Vecinos
 					int minAlpha = Integer.MAX_VALUE, aux;
 					for (int s : S) {
@@ -141,12 +140,12 @@ public class Grafo {
 					int[][] etAum = etiquetado(XG, YG, minAlpha, S, T);
 					System.out.println("Et X " + Arrays.toString(etAum[0]));
 					System.out.println("Et Y " + Arrays.toString(etAum[1]));
-					gl = new Grafo(mAdj, etAum[0], etAum[1], N);
-					vecinosS = gl.vecinos(S);
+					gl = new Grafo(mInicial, etAum[0], etAum[1], N);
+//					vecinosS = gl.vecinos(S);
 				}
 
 				int y = -1;
-				for (int vecino : vecinosS) {
+				for (int vecino : gl.vecinos(S)) {
 					if (!T.contains(vecino)) {
 						y = vecino;
 						break;
@@ -154,6 +153,7 @@ public class Grafo {
 				}
 
 				ySat = mi.isYSaturated(y);
+
 				if (ySat) {
 					S.add(mi.getAdjacentVertex(y));
 					T.add(y);
@@ -169,6 +169,7 @@ public class Grafo {
 					}
 					diffM.addAll(mi.notIn(path));
 					mi = new Matching(diffM, N);
+					imprimeAristas(mi.aristas);
 				}
 			} while (ySat);
 		} while (true);
@@ -254,7 +255,7 @@ public class Grafo {
 		Set<Integer> vecinos = new HashSet<Integer>();
 		for (int i : s) {
 			for (int j = 0; j < N; j++) {
-				if (mAdj[i][j] > 0) {
+				if (mAdj[i][j] >= 0) {
 					vecinos.add(j);
 				}
 			}
