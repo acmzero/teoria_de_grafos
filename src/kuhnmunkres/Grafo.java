@@ -12,9 +12,9 @@ import java.util.Queue;
 import java.util.Set;
 
 public class Grafo {
-	int mAdj[][], mInicial[][];
+	double mAdj[][], mInicial[][];
 	int N = 5;
-	int XG[], YG[];
+	double XG[], YG[];
 
 	public static void main(String[] args) {
 		Grafo g = new Grafo();
@@ -22,18 +22,18 @@ public class Grafo {
 	}
 
 	public Grafo() {
-		mAdj = new int[N][N];
-		int[][] mat = { { 4, 5, 50, 4, 1 }, { 2, 2, 0, 2, 2 },
+		mAdj = new double[N][N];
+		double[][] mat = { { 4, 5, 50, 4, 1 }, { 2, 2, 0, 2, 2 },
 				{ 2, 4, 4, 1, 0 }, { 0, 1, 1, 0, 0 }, { 1, 2, 1, 3, 3 } };
 		mAdj = mat;
 		mInicial = mat;
 	}
 
-	public Grafo(int[][] mAdj2, int[] X, int[] Y, int n) {
+	public Grafo(double[][] mAdj2, double[] X, double[] Y, int n) {
 		this.N = n;
 		this.XG = X;
 		this.YG = Y;
-		mAdj = new int[N][N];
+		mAdj = new double[N][N];
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
 				if (mAdj2[i][j] == X[i] + Y[j]) {
@@ -66,10 +66,10 @@ public class Grafo {
 		}
 	}
 
-	int[][] etiquetadoInicial() {
-		int[] X = new int[N];
-		int[] Y = new int[N];
-		int max = 0;
+	double[][] etiquetadoInicial() {
+		double[] X = new double[N];
+		double[] Y = new double[N];
+		double max = 0;
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
 				if (mAdj[i][j] > max) {
@@ -80,7 +80,7 @@ public class Grafo {
 			Y[i] = 0;
 			max = 0;
 		}
-		int[][] r = new int[2][N];
+		double[][] r = new double[2][N];
 		r[0] = X;
 		r[1] = Y;
 		return r;
@@ -101,7 +101,7 @@ public class Grafo {
 	}
 
 	void solve() {
-		int[][] etInicial = etiquetadoInicial();
+		double[][] etInicial = etiquetadoInicial();
 		System.out.println("Et inicial X " + Arrays.toString(etInicial[0]));
 		System.out.println("Et inicial Y " + Arrays.toString(etInicial[1]));
 		XG = etInicial[0];
@@ -126,7 +126,7 @@ public class Grafo {
 				boolean tEqN = gl.vecinos(S).containsAll(T) && T.containsAll(gl.vecinos(S));
 				if (tEqN) {
 					// si !tSubN entonces T == Vecinos
-					int minAlpha = Integer.MAX_VALUE, aux;
+					double minAlpha = Integer.MAX_VALUE, aux;
 					for (int s : S) {
 						for (int t = 0; t < N; t++) {
 							if (!T.contains(t)) {
@@ -137,7 +137,7 @@ public class Grafo {
 							}
 						}
 					}
-					int[][] etAum = etiquetado(XG, YG, minAlpha, S, T);
+					double[][] etAum = etiquetado(XG, YG, minAlpha, S, T);
 					System.out.println("Et X " + Arrays.toString(etAum[0]));
 					System.out.println("Et Y " + Arrays.toString(etAum[1]));
 					gl = new Grafo(mInicial, etAum[0], etAum[1], N);
@@ -227,10 +227,10 @@ public class Grafo {
 		return path;
 	}
 
-	private int[][] etiquetado(int[] xG2, int[] yG2, int minAlpha,
+	private double[][] etiquetado(double[] xG2, double[] yG2, double minAlpha,
 			Set<Integer> s, Set<Integer> t) {
-		int[] X = new int[N];
-		int[] Y = new int[N];
+		double[] X = new double[N];
+		double[] Y = new double[N];
 		for (int i = 0; i < N; i++) {
 			if (s.contains(i)) {
 				X[i] = xG2[i] - minAlpha;
@@ -245,7 +245,7 @@ public class Grafo {
 				Y[i] = yG2[i];
 			}
 		}
-		int[][] r = new int[2][N];
+		double[][] r = new double[2][N];
 		r[0] = X;
 		r[1] = Y;
 		return r;
