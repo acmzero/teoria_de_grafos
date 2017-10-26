@@ -20,6 +20,11 @@ public class Grafo {
 		Grafo g = new Grafo();
 		g.solve();
 	}
+	public Grafo(double[][] matriz, int N){
+		mAdj =matriz;
+		mInicial = matriz;
+		this.N = N;
+	}
 
 	public Grafo() {
 		mAdj = new double[N][N];
