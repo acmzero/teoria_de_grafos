@@ -97,7 +97,7 @@ public class Grafo {
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
 				if (mAdj[i][j] > 0 && !m.isYSaturated(j) && !m.isXSaturated(i)) {
-					m.addEdge(i, j);
+					m.addEdge(i, j, mAdj[i][j]);
 				}
 			}
 		}
@@ -105,7 +105,7 @@ public class Grafo {
 		return m;
 	}
 
-	void solve() {
+	List<Matching> solve() {
 		double[][] etInicial = etiquetadoInicial();
 		System.out.println("Et inicial X " + Arrays.toString(etInicial[0]));
 		System.out.println("Et inicial Y " + Arrays.toString(etInicial[1]));
@@ -114,6 +114,8 @@ public class Grafo {
 		Grafo gl = new Grafo(mAdj, etInicial[0], etInicial[1], N);
 		Matching mi = gl.matching();
 		imprimeAristas(mi.aristas);
+		List<Matching> matchings = new LinkedList<Matching>();
+		matchings.add(mi);
 		do {
 			int idxU = mi.isXSaturated();
 			if (idxU < 0) {
@@ -163,8 +165,9 @@ public class Grafo {
 					S.add(mi.getAdjacentVertex(y));
 					T.add(y);
 				} else {
-					// obten Path de idxU-> y con BFS
+					// obten Path de idxU-> y con BFS este es el camino M aumentante
 					List<Arista> path = gl.BFSPath(idxU, y);
+					matchings.add(new Matching(path,N));
 					// reemplaza M con la diff simetrica de M y Aristas del path
 					Set<Arista> diffM = new HashSet<Arista>();
 					for (Arista a : path) {
@@ -180,6 +183,8 @@ public class Grafo {
 		} while (true);
 		// mi es nuestro matching optimo
 		imprimeAristas(mi.aristas);
+		matchings.add(mi);
+		return matchings;
 	}
 
 	private void imprimeAristas(List<Arista> aristas) {
@@ -219,9 +224,9 @@ public class Grafo {
 				p = padres.get(c);
 				if (p != null) {
 					if (yCount % 2 == 0) {
-						path.add(new Arista(p, c));
+						path.add(new Arista(p, c, mAdj[p.id][c.id]));
 					} else {
-						path.add(new Arista(c, p));
+						path.add(new Arista(c, p, mAdj[c.id][p.id]));
 					}
 				}
 				c = p;

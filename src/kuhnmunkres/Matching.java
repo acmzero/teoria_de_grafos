@@ -7,6 +7,23 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import org.junit.experimental.ParallelComputer;
+
+import ui.PuzzleCanvas;
+
+import com.mxgraph.canvas.mxICanvas;
+import com.mxgraph.canvas.mxImageCanvas;
+import com.mxgraph.layout.mxEdgeLabelLayout;
+import com.mxgraph.layout.mxParallelEdgeLayout;
+import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
+import com.mxgraph.model.mxGeometry;
+import com.mxgraph.swing.mxGraphComponent;
+import com.mxgraph.util.mxConstants;
+import com.mxgraph.util.mxPoint;
+import com.mxgraph.util.mxUtils;
+import com.mxgraph.view.mxEdgeStyle;
+import com.mxgraph.view.mxGraph;
+
 public class Matching {
 	List<Arista> aristas;
 	boolean ySaturated[];
@@ -41,11 +58,12 @@ public class Matching {
 		return ySaturated[j];
 	}
 
-	public void addEdge(int i, int j) {
-		Arista e = new Arista(i, j);
+	public void addEdge(int i, int j, double peso) {
+		Arista e = new Arista(i, j, peso);
 		aristas.add(e);
 		ySaturated[j] = true;
 		xSaturated[i] = true;
+
 	}
 
 	public int isXSaturated() {
@@ -56,7 +74,6 @@ public class Matching {
 		}
 		return -1;
 	}
-
 	public Integer getAdjacentVertex(int y) {
 		for (Arista a : aristas) {
 			if (a.v2 == y) {
@@ -95,5 +112,45 @@ public class Matching {
 
 	public boolean isXSaturated(int i) {
 		return xSaturated[i];
+	}
+
+	public mxGraphComponent crearComponente() {
+		mxGraph graph = new mxGraph();
+
+		Object parent = graph.getDefaultParent();
+
+		graph.getModel().beginUpdate();
+		int sideSize = 15;
+		Object[] xVertex = new Object[N];
+		Object[] yVertex = new Object[N];
+		int altura = 10;
+		mxGeometry geometry = new mxGeometry();
+		Object edge;
+		try {
+			for (int i = 0; i < N; i++) {
+				xVertex[i] = graph.insertVertex(parent, null, "x" + i, 10,
+						altura, sideSize, sideSize);
+				yVertex[i] = graph.insertVertex(parent, null, "y" + i, 80,
+						altura, sideSize, sideSize);
+				altura += 35;
+			}
+			for (Arista a : aristas) {
+				edge = graph.insertEdge(xVertex[a.v1], null, "" + a.peso,
+						xVertex[a.v1], yVertex[a.v2]);
+				geometry = graph.getModel().getGeometry(edge);
+				geometry.setX(-0.5);
+
+			}
+		} finally {
+			graph.getModel().endUpdate();
+		}
+
+		mxGraphComponent graphComponent = new mxGraphComponent(graph);
+		graphComponent.setEnabled(false);
+		// new mxParallelEdgeLayout(graph).execute(graph.getDefaultParent());
+		// new mxHierarchicalLayout(graph).execute(graph.getDefaultParent());
+		// new mxEdgeLabelLayout(graph).execute(graph.getDefaultParent());
+
+		return graphComponent;
 	}
 }
