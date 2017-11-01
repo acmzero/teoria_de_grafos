@@ -2,6 +2,7 @@ package kuhnmunkres;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,62 +14,61 @@ import java.util.Set;
 
 public class Grafo {
 	double mAdj[][], mInicial[][];
-	int N = 5;
+	int N;
 	double XG[], YG[];
+	HashSet<Arista> aristas;
+	HashSet<Vertice> vertices;
+	Vertice[] verticesX, verticesY;
 
-	public static void main(String[] args) {
-		Grafo g = new Grafo();
-		g.solve();
-	}
-	public Grafo(double[][] matriz, int N){
-		mAdj =matriz;
+	public Grafo(double[][] matriz, int N) {
+		mAdj = matriz;
 		mInicial = matriz;
 		this.N = N;
+		procesaVertices();
 	}
 
-	public Grafo() {
-		mAdj = new double[N][N];
-		double[][] mat = { { 4, 5, 50, 4, 1 }, { 2, 2, 0, 2, 2 },
-				{ 2, 4, 4, 1, 0 }, { 0, 1, 1, 0, 0 }, { 1, 2, 1, 3, 3 } };
-		mAdj = mat;
-		mInicial = mat;
-	}
-
-	public Grafo(double[][] mAdj2, double[] X, double[] Y, int n) {
+	public Grafo(double[][] mInicial, double[] X, double[] Y, int n) {
 		this.N = n;
 		this.XG = X;
 		this.YG = Y;
 		mAdj = new double[N][N];
+		this.mInicial = mInicial;
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
-				if (mAdj2[i][j] == X[i] + Y[j]) {
-					mAdj[i][j] = mAdj2[i][j];
+				if (((Double) mInicial[i][j])
+						.compareTo((Double) (X[i] + Y[j] )) == 0) {
+					mAdj[i][j] = mInicial[i][j];
 				} else {
 					mAdj[i][j] = -1;
 				}
 			}
 		}
+		procesaVertices();
 	}
 
-	List<Vertice> verticesG;
-	Vertice[] verticesX, verticesY;
-
 	void procesaVertices() {
-		verticesG = new ArrayList<Vertice>(2 * N);
+		aristas = new HashSet<Arista>();
 		verticesX = new Vertice[N];
 		verticesY = new Vertice[N];
+		vertices = new HashSet<Vertice>();
 		for (int i = 0; i < N; i++) {
 			verticesX[i] = new Vertice(i);
 			verticesY[i] = new Vertice(i);
-			verticesG.add(verticesX[i]);
-			verticesG.add(verticesY[i]);
+			vertices.add(verticesX[i]);
+			vertices.add(verticesY[i]);
 		}
+		double p;
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
-				verticesX[i].addChildren(verticesY[j]);
-				verticesY[j].addChildren(verticesX[i]);
+				p = mAdj[i][j];
+				if (p >= 0) {
+					aristas.add(new Arista(i, j, p));
+					verticesX[i].addChildren(verticesY[j], p);
+					verticesY[j].addChildren(verticesX[i], p);
+				}
 			}
 		}
+
 	}
 
 	double[][] etiquetadoInicial() {
@@ -96,7 +96,7 @@ public class Grafo {
 
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
-				if (mAdj[i][j] > 0 && !m.isYSaturated(j) && !m.isXSaturated(i)) {
+				if (mAdj[i][j] >= 0 && !m.isYSaturated(j) && !m.isXSaturated(i)) {
 					m.addEdge(i, j, mAdj[i][j]);
 				}
 			}
@@ -105,13 +105,13 @@ public class Grafo {
 		return m;
 	}
 
-	List<Matching> solve() {
+	public List<Matching> solve() {
 		double[][] etInicial = etiquetadoInicial();
 		System.out.println("Et inicial X " + Arrays.toString(etInicial[0]));
 		System.out.println("Et inicial Y " + Arrays.toString(etInicial[1]));
 		XG = etInicial[0];
 		YG = etInicial[1];
-		Grafo gl = new Grafo(mAdj, etInicial[0], etInicial[1], N);
+		Grafo gl = new Grafo(mInicial, etInicial[0], etInicial[1], N);
 		Matching mi = gl.matching();
 		imprimeAristas(mi.aristas);
 		List<Matching> matchings = new LinkedList<Matching>();
@@ -128,54 +128,98 @@ public class Grafo {
 
 			boolean ySat = true;
 			do {
-//				Set<Integer> vecinosS = gl.vecinos(S);
+				Set<Integer> vecinosS = gl.vecinos(S);
 
-				boolean tEqN = gl.vecinos(S).containsAll(T) && T.containsAll(gl.vecinos(S));
+				boolean tEqN = vecinosS.containsAll(T)
+						&& T.containsAll(vecinosS);
 				if (tEqN) {
-					// si !tSubN entonces T == Vecinos
 					double minAlpha = Integer.MAX_VALUE, aux;
 					for (int s : S) {
 						for (int t = 0; t < N; t++) {
 							if (!T.contains(t)) {
-								aux = gl.XG[s] + gl.YG[t] - mAdj[s][t];
+								aux = gl.XG[s] + gl.YG[t] - mInicial[s][t];
 								if (aux < minAlpha) {
 									minAlpha = aux;
 								}
 							}
 						}
 					}
-					double[][] etAum = etiquetado(XG, YG, minAlpha, S, T);
+					double[][] etAum = etiquetado(gl.XG, gl.YG, minAlpha, S, T);
 					System.out.println("Et X " + Arrays.toString(etAum[0]));
 					System.out.println("Et Y " + Arrays.toString(etAum[1]));
 					gl = new Grafo(mInicial, etAum[0], etAum[1], N);
-//					vecinosS = gl.vecinos(S);
+					vecinosS = gl.vecinos(S);
 				}
 
 				int y = -1;
+				// Set<Integer> vecinosS = gl.vecinos(S);
 				for (int vecino : gl.vecinos(S)) {
 					if (!T.contains(vecino)) {
 						y = vecino;
 						break;
 					}
 				}
-
+				if (y < 0) {
+					// break;
+				}
 				ySat = mi.isYSaturated(y);
 
 				if (ySat) {
 					S.add(mi.getAdjacentVertex(y));
 					T.add(y);
 				} else {
-					// obten Path de idxU-> y con BFS este es el camino M aumentante
-					List<Arista> path = gl.BFSPath(idxU, y);
-					matchings.add(new Matching(path,N));
+					// obten Path de idxU-> y con BFS este es el camino M
+					// aumentante
+					List<Arista> path = gl.BFSPath(idxU, y, mi);
+					Set<Integer> usGenerados = new HashSet<Integer>();
+					if(path.isEmpty()){
+						usGenerados.add(idxU);
+						while(!sameSet(usGenerados,S)){
+							for(Integer i: S){
+								if(!usGenerados.contains(i)){
+									idxU = i;
+									break;
+								}
+							}
+							path = gl.BFSPath(idxU, y, mi);
+						}
+						
+					}
+					matchings.add(new Matching(path, N));
 					// reemplaza M con la diff simetrica de M y Aristas del path
 					Set<Arista> diffM = new HashSet<Arista>();
-					for (Arista a : path) {
-						if (!mi.contains(a)) {
-							diffM.add(a);
-						}
-					}
-					diffM.addAll(mi.notIn(path));
+
+//					boolean toDiff = false;
+//					for (Arista a : path) {
+//						toDiff = true;
+//						for (Arista b : mi.aristas) {
+//							if (a.v1 == b.v1 || a.v2 == b.v2) {
+//								toDiff = false;
+//								break;
+//							}
+//						}
+//						if (toDiff) {
+//							diffM.add(a);
+//						}
+//					}
+//					for (Arista a : mi.aristas) {
+//						toDiff = true;
+//						for (Arista b : path) {
+//							if (a.v1 == b.v1 || a.v2 == b.v2) {
+//								toDiff = false;
+//								break;
+//							}
+//						}
+//						if (toDiff) {
+//							diffM.add(a);
+//						}
+//					}
+					 for (Arista a : path) {
+					 if (!mi.contains(a)) {
+					 diffM.add(a);
+					 }
+					 }
+					 diffM.addAll(mi.notIn(path));
 					mi = new Matching(diffM, N);
 					imprimeAristas(mi.aristas);
 				}
@@ -194,7 +238,7 @@ public class Grafo {
 		}
 	}
 
-	private List<Arista> BFSPath(int idxU, int y) {
+	private List<Arista> BFSPath(int idxU, int y, Matching mi) {
 		procesaVertices();
 		Queue<Vertice> q = new LinkedList<Vertice>();
 		Map<Vertice, Vertice> padres = new HashMap<Vertice, Vertice>();
@@ -202,9 +246,27 @@ public class Grafo {
 		padres.put(verticesX[idxU], null);
 		Vertice c;
 		boolean yFound = false;
+		List<Arista> aristasEnMatching = mi.aristas;
+		HashSet<Arista> aristasNoEnMatching = new HashSet<Arista>();
+		for (Arista a : aristas) {
+			if (!aristasEnMatching.contains(a)) {
+				aristasNoEnMatching.add(a);
+			}
+		}
+
+		List<Arista> hijos;
+		List<Vertice> vecinos;
+		boolean inMatching = false;
 		while (!q.isEmpty() && !yFound) {
 			c = q.poll();
-			for (Vertice h : c.hijos) {
+			if (inMatching) {
+				hijos = aristasDesdeVertice(c, aristasEnMatching, false);
+				vecinos = verticesDesdeAristas(hijos, inMatching);
+			} else {
+				hijos = aristasDesdeVertice(c, aristasNoEnMatching, true);
+				vecinos = verticesDesdeAristas(hijos, inMatching);
+			}
+			for (Vertice h : vecinos) {
 				if (!padres.containsKey(h)) {
 					q.add(h);
 					padres.put(h, c);
@@ -214,6 +276,7 @@ public class Grafo {
 					}
 				}
 			}
+			inMatching = !inMatching;
 		}
 		List<Arista> path = new LinkedList<Arista>();
 		if (yFound) {
@@ -234,7 +297,31 @@ public class Grafo {
 			}
 			Collections.reverse(path);
 		}
+		if(!path.isEmpty()&&path.get(path.size()-1).v2!=y){
+			path = new LinkedList<Arista>();
+		}
 		return path;
+	}
+
+	private List<Vertice> verticesDesdeAristas(List<Arista> hijos,
+			boolean inMatching) {
+		List<Vertice> list = new LinkedList<Vertice>();
+		for (Arista a : hijos) {
+			if (a.peso >= 0)
+				list.add(inMatching ? verticesX[a.v1] : verticesY[a.v2]);
+		}
+		return list;
+	}
+
+	private List<Arista> aristasDesdeVertice(Vertice c, Collection<Arista> as,
+			boolean lookInX) {
+		LinkedList<Arista> found = new LinkedList<Arista>();
+		for (Arista a : as) {
+			if ((lookInX && a.v1 == c.id) || (!lookInX && a.v2 == c.id)) {
+				found.add(a);
+			}
+		}
+		return found;
 	}
 
 	private double[][] etiquetado(double[] xG2, double[] yG2, double minAlpha,
@@ -271,5 +358,14 @@ public class Grafo {
 			}
 		}
 		return vecinos;
+	}
+
+	@Override
+	public String toString() {
+		return mAdj.toString();
+	}
+	
+	public boolean sameSet(Collection<?> a, Collection<?> b){
+		return a.containsAll(b) && b.containsAll(a);
 	}
 }

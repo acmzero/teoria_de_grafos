@@ -60,6 +60,7 @@ public class Matching {
 
 	public void addEdge(int i, int j, double peso) {
 		Arista e = new Arista(i, j, peso);
+		e.inMatching = true;
 		aristas.add(e);
 		ySaturated[j] = true;
 		xSaturated[i] = true;
