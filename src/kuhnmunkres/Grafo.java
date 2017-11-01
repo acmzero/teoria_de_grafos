@@ -1,6 +1,5 @@
 package kuhnmunkres;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -35,8 +34,7 @@ public class Grafo {
 		this.mInicial = mInicial;
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
-				if (((Double) mInicial[i][j])
-						.compareTo((Double) (X[i] + Y[j] )) == 0) {
+				if (((Double) mInicial[i][j]).compareTo((Double) (X[i] + Y[j])) == 0) {
 					mAdj[i][j] = mInicial[i][j];
 				} else {
 					mAdj[i][j] = -1;
@@ -130,9 +128,7 @@ public class Grafo {
 			do {
 				Set<Integer> vecinosS = gl.vecinos(S);
 
-				boolean tEqN = vecinosS.containsAll(T)
-						&& T.containsAll(vecinosS);
-				if (tEqN) {
+				if (sameSet(T, vecinosS)) {
 					double minAlpha = Integer.MAX_VALUE, aux;
 					for (int s : S) {
 						for (int t = 0; t < N; t++) {
@@ -152,15 +148,11 @@ public class Grafo {
 				}
 
 				int y = -1;
-				// Set<Integer> vecinosS = gl.vecinos(S);
 				for (int vecino : gl.vecinos(S)) {
 					if (!T.contains(vecino)) {
 						y = vecino;
 						break;
 					}
-				}
-				if (y < 0) {
-					// break;
 				}
 				ySat = mi.isYSaturated(y);
 
@@ -172,54 +164,29 @@ public class Grafo {
 					// aumentante
 					List<Arista> path = gl.BFSPath(idxU, y, mi);
 					Set<Integer> usGenerados = new HashSet<Integer>();
-					if(path.isEmpty()){
+					if (path.isEmpty()) {
 						usGenerados.add(idxU);
-						while(!sameSet(usGenerados,S)){
-							for(Integer i: S){
-								if(!usGenerados.contains(i)){
+						while (!sameSet(usGenerados, S)) {
+							for (Integer i : S) {
+								if (!usGenerados.contains(i)) {
 									idxU = i;
 									break;
 								}
 							}
 							path = gl.BFSPath(idxU, y, mi);
 						}
-						
+
 					}
 					matchings.add(new Matching(path, N));
 					// reemplaza M con la diff simetrica de M y Aristas del path
 					Set<Arista> diffM = new HashSet<Arista>();
 
-//					boolean toDiff = false;
-//					for (Arista a : path) {
-//						toDiff = true;
-//						for (Arista b : mi.aristas) {
-//							if (a.v1 == b.v1 || a.v2 == b.v2) {
-//								toDiff = false;
-//								break;
-//							}
-//						}
-//						if (toDiff) {
-//							diffM.add(a);
-//						}
-//					}
-//					for (Arista a : mi.aristas) {
-//						toDiff = true;
-//						for (Arista b : path) {
-//							if (a.v1 == b.v1 || a.v2 == b.v2) {
-//								toDiff = false;
-//								break;
-//							}
-//						}
-//						if (toDiff) {
-//							diffM.add(a);
-//						}
-//					}
-					 for (Arista a : path) {
-					 if (!mi.contains(a)) {
-					 diffM.add(a);
-					 }
-					 }
-					 diffM.addAll(mi.notIn(path));
+					for (Arista a : path) {
+						if (!mi.contains(a)) {
+							diffM.add(a);
+						}
+					}
+					diffM.addAll(mi.notIn(path));
 					mi = new Matching(diffM, N);
 					imprimeAristas(mi.aristas);
 				}
@@ -297,7 +264,7 @@ public class Grafo {
 			}
 			Collections.reverse(path);
 		}
-		if(!path.isEmpty()&&path.get(path.size()-1).v2!=y){
+		if (!path.isEmpty() && path.get(path.size() - 1).v2 != y) {
 			path = new LinkedList<Arista>();
 		}
 		return path;
@@ -364,8 +331,8 @@ public class Grafo {
 	public String toString() {
 		return mAdj.toString();
 	}
-	
-	public boolean sameSet(Collection<?> a, Collection<?> b){
+
+	public boolean sameSet(Collection<?> a, Collection<?> b) {
 		return a.containsAll(b) && b.containsAll(a);
 	}
 }

@@ -17,11 +17,11 @@ public class GrafoTest {
 		Object ex = null;
 		List<Matching> mi = null;
 
-//		try {
+		try {
 			mi = G.solve();
-//		} catch (Exception e) {
-//			ex = e;
-//		}
+		} catch (Exception e) {
+			ex = e;
+		}
 
 		assertNull(ex);
 		assertNotNull(mi);
@@ -32,14 +32,14 @@ public class GrafoTest {
 	public void testOriginal(){
 		double[][] mat = { { 4, 5, 5, 4, 1 }, { 2, 2, 0, 2, 2 },
 				{ 2, 4, 4, 1, 0 }, { 0, 1, 1, 0, 0 }, { 1, 2, 1, 3, 3 } };
-//		test(mat,5);
+		test(mat,5);
 	}
 	
 	@Test
 	public void testRandom(){
 		 double[][] mat = { { 250, 600, 350 }, { 400, 500, 250 },
 		 { 200, 400, 350 } };
-//		 test(mat,3);
+		 test(mat,3);
 	}
 	@Test
 	public void testI1(){
