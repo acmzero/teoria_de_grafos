@@ -8,22 +8,30 @@ public class Vertice {
 	public List<Vertice> hijos = new LinkedList<Vertice>();
 	public List<Arista> hijosArista = new LinkedList<Arista>();
 	public int id;
+	char set;
 
-	public Vertice(int i) {
+	public Vertice(int i, char c) {
 		id = i;
+		set = c;
 	}
 
 	public void addChildren(Vertice vertice, double p) {
 		hijos.add(vertice);
-		hijosArista.add(new Arista(this, vertice, p));
+		if (set == 'Y') {
+			hijosArista.add(new Arista(vertice, this, p));
+		} else {
+			hijosArista.add(new Arista(this, vertice, p));
+		}
 	}
 
 	public List<Arista> hijosNotIn(List<Arista> aristas, boolean notIn) {
 		List<Arista> list = new LinkedList<Arista>();
-		for (Arista a : aristas) {
-			if (!aristas.contains(a) && notIn) {
+		boolean cont;
+		for (Arista a : hijosArista) {
+			cont = aristas.contains(a);
+			if (!cont && notIn) {
 				list.add(a);
-			} else {
+			} else if (cont && !notIn) {
 				list.add(a);
 			}
 		}
@@ -42,7 +50,7 @@ public class Vertice {
 
 	@Override
 	public String toString() {
-		return "" + id;
+		return "" + set + id;
 	}
 
 }

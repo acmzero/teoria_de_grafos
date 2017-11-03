@@ -50,8 +50,8 @@ public class Grafo {
 		verticesY = new Vertice[N];
 		vertices = new HashSet<Vertice>();
 		for (int i = 0; i < N; i++) {
-			verticesX[i] = new Vertice(i);
-			verticesY[i] = new Vertice(i);
+			verticesX[i] = new Vertice(i, 'X');
+			verticesY[i] = new Vertice(i, 'Y');
 			vertices.add(verticesX[i]);
 			vertices.add(verticesY[i]);
 		}
@@ -216,13 +216,18 @@ public class Grafo {
 		Vertice c, vecino, padre;
 		boolean aristaSaturada = false;
 		boolean yFound = false;
+		Set<String> explorado = new HashSet<String>();
 		while (!q.isEmpty()) {
 			c = q.poll();
 			hijos = c.hijosNotIn(mi.aristas, !aristaSaturada);
 			for (Arista a : hijos) {
 				// if aristaSaturada buscar en x, buscar en y de lo contrario
 				vecino = aristaSaturada ? verticesX[a.v1] : verticesY[a.v2];
-				if (!padres.containsKey(vecino)) {
+				if (!padres.containsKey(vecino)
+						&& explorado.contains(vecino.id + vecino.set
+								+ (aristaSaturada ? "S" : "N"))) {
+					explorado.add(vecino.id + vecino.set
+							+ (aristaSaturada ? "S" : "N"));
 					padres.put(vecino, c);
 					q.add(vecino);
 					if (a.v2 == y) {
