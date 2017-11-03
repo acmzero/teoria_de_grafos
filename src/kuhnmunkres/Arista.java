@@ -40,4 +40,8 @@ public class Arista {
 		return String.format("(X%d Y%d, w=%.2f)", v1, v2, peso);
 	}
 
+    public double getPeso() {
+        return peso;
+    }
+
 }

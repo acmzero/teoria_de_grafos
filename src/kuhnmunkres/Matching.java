@@ -139,4 +139,8 @@ public class Matching {
 
 		return graphComponent;
 	}
+
+    public List<Arista> regreAristas() {
+        return aristas;
+    }
 }
