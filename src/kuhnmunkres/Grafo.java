@@ -211,6 +211,57 @@ public class Grafo {
 		Map<Vertice, Vertice> padres = new HashMap<Vertice, Vertice>();
 		q.add(verticesX[idxU]);
 		padres.put(verticesX[idxU], null);
+		LinkedList<Arista> path = new LinkedList<Arista>();
+		List<Arista> hijos;
+		Vertice c, vecino, padre;
+		boolean aristaSaturada = false;
+		boolean yFound = false;
+		while (!q.isEmpty()) {
+			c = q.poll();
+			hijos = c.hijosNotIn(mi.aristas, !aristaSaturada);
+			for (Arista a : hijos) {
+				// if aristaSaturada buscar en x, buscar en y de lo contrario
+				vecino = aristaSaturada ? verticesX[a.v1] : verticesY[a.v2];
+				if (!padres.containsKey(vecino)) {
+					padres.put(vecino, c);
+					q.add(vecino);
+					if (a.v2 == y) {
+						yFound = true;
+						break;
+					}
+				}
+
+			}
+			if (yFound) {
+				break;
+			}
+
+			aristaSaturada = !aristaSaturada;
+		}
+		if (yFound) {
+			Arista ax;
+			c = verticesY[y];
+			while (c != null) {
+				padre = padres.get(c);
+				if (padre != null) {
+					ax = c.getAristaTo(padre);
+					if (ax != null) {
+						path.add(ax);
+					}
+				}
+				c = padre;
+			}
+		}
+
+		return path;
+	}
+
+	private List<Arista> BFSPath1(int idxU, int y, Matching mi) {
+		procesaVertices();
+		Queue<Vertice> q = new LinkedList<Vertice>();
+		Map<Vertice, Vertice> padres = new HashMap<Vertice, Vertice>();
+		q.add(verticesX[idxU]);
+		padres.put(verticesX[idxU], null);
 		Vertice c;
 		boolean yFound = false;
 		List<Arista> aristasEnMatching = mi.aristas;
@@ -252,8 +303,8 @@ public class Grafo {
 			int yCount = 0;
 			while (c != null) {
 				p = padres.get(c);
-				if (p != null) {
-					if (yCount % 2 == 0) {
+				if (p != null && mAdj[p.id][c.id] >= 0) {
+					if ((yCount % 2) == 0) {
 						path.add(new Arista(p, c, mAdj[p.id][c.id]));
 					} else {
 						path.add(new Arista(c, p, mAdj[c.id][p.id]));
@@ -285,7 +336,9 @@ public class Grafo {
 		LinkedList<Arista> found = new LinkedList<Arista>();
 		for (Arista a : as) {
 			if ((lookInX && a.v1 == c.id) || (!lookInX && a.v2 == c.id)) {
-				found.add(a);
+				if (a.peso >= 0) {
+					found.add(a);
+				}
 			}
 		}
 		return found;
