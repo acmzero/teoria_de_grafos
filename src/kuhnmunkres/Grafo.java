@@ -163,20 +163,6 @@ public class Grafo {
 					// obten Path de idxU-> y con BFS este es el camino M
 					// aumentante
 					List<Arista> path = gl.BFSPath(idxU, y, mi);
-					Set<Integer> usGenerados = new HashSet<Integer>();
-					if (path.isEmpty()) {
-						usGenerados.add(idxU);
-						while (!sameSet(usGenerados, S)) {
-							for (Integer i : S) {
-								if (!usGenerados.contains(i)) {
-									idxU = i;
-									break;
-								}
-							}
-							path = gl.BFSPath(idxU, y, mi);
-						}
-
-					}
 					matchings.add(new Matching(path, N));
 					// reemplaza M con la diff simetrica de M y Aristas del path
 					Set<Arista> diffM = new HashSet<Arista>();
@@ -205,149 +191,60 @@ public class Grafo {
 		}
 	}
 
-	private List<Arista> BFSPath(int idxU, int y, Matching mi) {
+	private List<Arista> BFSPath(int u, int y, Matching m) {
 		procesaVertices();
-		Queue<Vertice> q = new LinkedList<Vertice>();
-		Map<Vertice, Vertice> padres = new HashMap<Vertice, Vertice>();
-		q.add(verticesX[idxU]);
-		padres.put(verticesX[idxU], null);
-		LinkedList<Arista> path = new LinkedList<Arista>();
-		List<Arista> hijos;
-		Vertice c, vecino, padre;
-		boolean aristaSaturada = false;
-		boolean yFound = false;
-		Set<String> explorado = new HashSet<String>();
-		while (!q.isEmpty()) {
-			c = q.poll();
-			hijos = c.hijosNotIn(mi.aristas, !aristaSaturada);
-			for (Arista a : hijos) {
-				// if aristaSaturada buscar en x, buscar en y de lo contrario
-				vecino = aristaSaturada ? verticesX[a.v1] : verticesY[a.v2];
-				if (!padres.containsKey(vecino)
-						&& explorado.contains(vecino.id + vecino.set
-								+ (aristaSaturada ? "S" : "N"))) {
-					explorado.add(vecino.id + vecino.set
-							+ (aristaSaturada ? "S" : "N"));
-					padres.put(vecino, c);
-					q.add(vecino);
-					if (a.v2 == y) {
-						yFound = true;
-						break;
-					}
-				}
-
-			}
-			if (yFound) {
+		Vertice verticeU = verticesX[u];
+		boolean buscarSaturados = false;
+		List<Arista> hijos = verticeU.hijosNotIn(m.aristas);
+		Map<Arista, Arista> padres = new HashMap<Arista, Arista>();
+		LinkedList<Arista> q = new LinkedList<Arista>();
+		Arista aristaY = null;
+		for (Arista a : hijos) {
+			padres.put(a, null);
+			q.add(a);
+			if(a.v2==y){
+				aristaY = a;
 				break;
 			}
-
-			aristaSaturada = !aristaSaturada;
 		}
-		if (yFound) {
-			Arista ax;
-			c = verticesY[y];
-			while (c != null) {
-				padre = padres.get(c);
-				if (padre != null) {
-					ax = c.getAristaTo(padre);
-					if (ax != null) {
-						path.add(ax);
-					}
-				}
-				c = padre;
-			}
-		}
+		buscarSaturados = true;
+		Arista a;
 
-		return path;
-	}
-
-	private List<Arista> BFSPath1(int idxU, int y, Matching mi) {
-		procesaVertices();
-		Queue<Vertice> q = new LinkedList<Vertice>();
-		Map<Vertice, Vertice> padres = new HashMap<Vertice, Vertice>();
-		q.add(verticesX[idxU]);
-		padres.put(verticesX[idxU], null);
-		Vertice c;
-		boolean yFound = false;
-		List<Arista> aristasEnMatching = mi.aristas;
-		HashSet<Arista> aristasNoEnMatching = new HashSet<Arista>();
-		for (Arista a : aristas) {
-			if (!aristasEnMatching.contains(a)) {
-				aristasNoEnMatching.add(a);
-			}
-		}
-
-		List<Arista> hijos;
-		List<Vertice> vecinos;
-		boolean inMatching = false;
-		while (!q.isEmpty() && !yFound) {
-			c = q.poll();
-			if (inMatching) {
-				hijos = aristasDesdeVertice(c, aristasEnMatching, false);
-				vecinos = verticesDesdeAristas(hijos, inMatching);
+		while (!q.isEmpty() && aristaY==null) {
+			a = q.poll();
+			buscarSaturados = !m.aristas.contains(a);
+			if (buscarSaturados) {
+				// meaning from Y->X in matching
+				hijos = verticesY[a.v2].hijosIn(m.aristas);
 			} else {
-				hijos = aristasDesdeVertice(c, aristasNoEnMatching, true);
-				vecinos = verticesDesdeAristas(hijos, inMatching);
+				// meaning from X->Y not in the matching
+				hijos = verticesX[a.v1].hijosNotIn(m.aristas);
 			}
-			for (Vertice h : vecinos) {
+			for (Arista h : hijos) {
 				if (!padres.containsKey(h)) {
+					padres.put(h, a);
 					q.add(h);
-					padres.put(h, c);
-					if (h == verticesY[y]) {
-						yFound = true;
+					if (!buscarSaturados && h.v2 == y) {
+						aristaY = h;
 						break;
 					}
 				}
 			}
-			inMatching = !inMatching;
 		}
 		List<Arista> path = new LinkedList<Arista>();
-		if (yFound) {
-			Vertice p;
-			c = verticesY[y];
-			int yCount = 0;
-			while (c != null) {
-				p = padres.get(c);
-				if (p != null && mAdj[p.id][c.id] >= 0) {
-					if ((yCount % 2) == 0) {
-						path.add(new Arista(p, c, mAdj[p.id][c.id]));
-					} else {
-						path.add(new Arista(c, p, mAdj[c.id][p.id]));
-					}
-				}
-				c = p;
-				yCount++;
+		if (aristaY != null) {
+			a = aristaY;
+			Arista padre;
+			while (a != null) {
+				padre = padres.get(a);
+				path.add(a);
+				a = padre;
 			}
-			Collections.reverse(path);
 		}
-		if (!path.isEmpty() && path.get(path.size() - 1).v2 != y) {
-			path = new LinkedList<Arista>();
-		}
+
 		return path;
 	}
 
-	private List<Vertice> verticesDesdeAristas(List<Arista> hijos,
-			boolean inMatching) {
-		List<Vertice> list = new LinkedList<Vertice>();
-		for (Arista a : hijos) {
-			if (a.peso >= 0)
-				list.add(inMatching ? verticesX[a.v1] : verticesY[a.v2]);
-		}
-		return list;
-	}
-
-	private List<Arista> aristasDesdeVertice(Vertice c, Collection<Arista> as,
-			boolean lookInX) {
-		LinkedList<Arista> found = new LinkedList<Arista>();
-		for (Arista a : as) {
-			if ((lookInX && a.v1 == c.id) || (!lookInX && a.v2 == c.id)) {
-				if (a.peso >= 0) {
-					found.add(a);
-				}
-			}
-		}
-		return found;
-	}
 
 	private double[][] etiquetado(double[] xG2, double[] yG2, double minAlpha,
 			Set<Integer> s, Set<Integer> t) {

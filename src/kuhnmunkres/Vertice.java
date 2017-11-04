@@ -53,4 +53,11 @@ public class Vertice {
 		return "" + set + id;
 	}
 
+	public List<Arista> hijosNotIn(List<Arista> aristas) {
+		return hijosNotIn(aristas, true);
+	}
+
+	public List<Arista> hijosIn(List<Arista> aristas) {
+		return hijosNotIn(aristas, false);
+	}
 }
