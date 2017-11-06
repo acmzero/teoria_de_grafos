@@ -60,6 +60,7 @@ public class Matching {
 		}
 		return -1;
 	}
+
 	public Integer getAdjacentVertex(int y) {
 		for (Arista a : aristas) {
 			if (a.v2 == y) {
@@ -121,8 +122,9 @@ public class Matching {
 				altura += 35;
 			}
 			for (Arista a : aristas) {
-				edge = graph.insertEdge(xVertex[a.v1], null, "" + a.peso,
-						xVertex[a.v1], yVertex[a.v2]);
+				edge = graph.insertEdge(xVertex[a.v1], null,
+						incluirPeso ? ("" + a.peso) : "", xVertex[a.v1],
+						yVertex[a.v2]);
 				geometry = graph.getModel().getGeometry(edge);
 				geometry.setX(-0.5);
 
@@ -140,7 +142,14 @@ public class Matching {
 		return graphComponent;
 	}
 
-    public List<Arista> regreAristas() {
-        return aristas;
-    }
+	public List<Arista> regreAristas() {
+		return aristas;
+	}
+
+	boolean incluirPeso = true;
+
+	public mxGraphComponent crearComponente(boolean b) {
+		incluirPeso = b;
+		return crearComponente();
+	}
 }

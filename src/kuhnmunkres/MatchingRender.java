@@ -15,12 +15,12 @@ public class MatchingRender extends JFrame {
 		this.setLayout(new GridLayout(1, matchings.size()));
 		this.setVisible(true);
 		mxGraphComponent c;
-		for (Matching m : matchings) {
-			c = m.crearComponente();
+
+		for (int i = 0; i < matchings.size(); i++) {
+			c = matchings.get(i).crearComponente(i == (matchings.size() - 1));
 			if (c != null) {
 				this.add(c);
 			}
-
 		}
 	}
 
